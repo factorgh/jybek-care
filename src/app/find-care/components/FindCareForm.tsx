@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button, Input } from '@/components/ui';
 import { 
@@ -85,9 +86,11 @@ export function FindCareForm() {
               </a>
             </div>
 
-            <Button href="/" variant="outline" size="lg">
-              Return to Home
-            </Button>
+            <Link href="/">
+              <Button variant="outline" size="lg">
+                Return to Home
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </section>
