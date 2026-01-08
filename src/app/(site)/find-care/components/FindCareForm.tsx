@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -12,10 +12,26 @@ import {
   Shield,
   Clock,
   Heart,
+  User,
+  Users,
+  MapPin,
+  AlertCircle,
+  Loader2,
 } from 'lucide-react';
 
+// ZIP code validation regex (US 5-digit or 5+4 format)
+const ZIP_CODE_REGEX = /^\d{5}(-\d{4})?$/;
+
+interface ZipValidationResult {
+  valid: boolean;
+  city?: string;
+  state?: string;
+  stateAbbr?: string;
+  error?: string;
+}
+
 /**
- * Simple lead capture form - direct path to getting care matches
+ * Lead capture form - Jybek collects user info to reach out and provide care services
  */
 export function FindCareForm() {
   const searchParams = useSearchParams();
@@ -26,22 +42,80 @@ export function FindCareForm() {
     email: '',
     phone: '',
     zipCode: '',
+    isForSelf: '', // 'yes' = for themselves, 'no' = for someone else
   });
 
-  // Pre-populate ZIP code from URL params
+  // ZIP validation state
+  const [zipValidating, setZipValidating] = useState(false);
+  const [zipValidationResult, setZipValidationResult] = useState<ZipValidationResult | null>(null);
+  const [zipTouched, setZipTouched] = useState(false);
+
+  // Validate ZIP code via API
+  const validateZipCode = useCallback(async (zip: string) => {
+    if (!ZIP_CODE_REGEX.test(zip.trim())) {
+      setZipValidationResult(null);
+      return;
+    }
+
+    setZipValidating(true);
+    try {
+      const response = await fetch(`/api/validate-zip?zip=${encodeURIComponent(zip.trim())}`);
+      const data = await response.json();
+      setZipValidationResult(data);
+    } catch {
+      // On error, allow form submission (format is valid)
+      setZipValidationResult({ valid: true });
+    } finally {
+      setZipValidating(false);
+    }
+  }, []);
+
+  // Pre-populate ZIP code from URL params and validate it
   useEffect(() => {
     const zipFromUrl = searchParams.get('zip');
     if (zipFromUrl) {
       setFormData(prev => ({ ...prev, zipCode: zipFromUrl }));
+      setZipTouched(true);
+      // Validate the pre-populated ZIP
+      validateZipCode(zipFromUrl);
     }
-  }, [searchParams]);
+  }, [searchParams, validateZipCode]);
+
+  // Validate ZIP code when it changes (debounced)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (formData.zipCode.trim().length >= 5) {
+        validateZipCode(formData.zipCode);
+      } else {
+        setZipValidationResult(null);
+      }
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [formData.zipCode, validateZipCode]);
 
   const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }));
   };
 
+  const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^\d-]/g, '').slice(0, 10);
+    setFormData(prev => ({ ...prev, zipCode: value }));
+  };
+
+  const handleRadioChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Check if ZIP is valid
+  const isZipFormatValid = ZIP_CODE_REGEX.test(formData.zipCode.trim());
+  const isZipValid = isZipFormatValid && (zipValidationResult === null || zipValidationResult.valid);
+  const showZipFormatError = zipTouched && formData.zipCode.length > 0 && !isZipFormatValid;
+  const showZipApiError = zipTouched && isZipFormatValid && zipValidationResult && !zipValidationResult.valid;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isZipValid || zipValidating) return;
     // Here you would typically send the data to your backend
     console.log('Form submitted:', formData);
     setIsSubmitted(true);
@@ -69,14 +143,14 @@ export function FindCareForm() {
             </motion.div>
             
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Thank You!
+              Thank You for Reaching Out!
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-              We&apos;ve received your information. A Jybek care advisor will contact you within 24 hours to discuss your care needs and provide personalized recommendations.
+              We&apos;ve received your information. A Jybek care specialist will reach out to you within 24 hours to discuss your care needs and how we can help.
             </p>
             
             <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 mb-8">
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Need immediate assistance?</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Need to speak with us sooner?</p>
               <a 
                 href="tel:+1 888-717-5009" 
                 className="inline-flex items-center gap-2 text-xl font-bold text-brand-600"
@@ -111,10 +185,10 @@ export function FindCareForm() {
           className="text-center mb-10"
         >
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Find Jybek Care Near You
+            Get Started with Jybek Home Care
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Answer a few questions to get personalized Jybek care recommendations.
+            Share your details and our care team will reach out to discuss how we can help.
           </p>
         </motion.div>
 
@@ -128,14 +202,109 @@ export function FindCareForm() {
           <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-8 md:p-10">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Get Your Personalized Jybek Matches
+                Request a Consultation
               </h2>
               <p className="text-gray-500 dark:text-gray-400">
-                Share your contact details to receive Jybek care provider recommendations.
+                Tell us a little about yourself and we&apos;ll contact you to discuss your care needs.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Is this for yourself? Radio Buttons */}
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Are you requesting care for yourself?
+                </label>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {/* Yes - For myself */}
+                  <label
+                    className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      formData.isForSelf === 'yes'
+                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="isForSelf"
+                      value="yes"
+                      checked={formData.isForSelf === 'yes'}
+                      onChange={() => handleRadioChange('isForSelf', 'yes')}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      formData.isForSelf === 'yes' 
+                        ? 'bg-brand-500 text-white' 
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                    }`}>
+                      <User className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className={`font-semibold ${
+                        formData.isForSelf === 'yes' 
+                          ? 'text-brand-700 dark:text-brand-400' 
+                          : 'text-gray-900 dark:text-white'
+                      }`}>
+                        Yes, for myself
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        I need care services
+                      </p>
+                    </div>
+                    {formData.isForSelf === 'yes' && (
+                      <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-brand-500" />
+                    )}
+                  </label>
+
+                  {/* No - For someone else */}
+                  <label
+                    className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      formData.isForSelf === 'no'
+                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="isForSelf"
+                      value="no"
+                      checked={formData.isForSelf === 'no'}
+                      onChange={() => handleRadioChange('isForSelf', 'no')}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      formData.isForSelf === 'no' 
+                        ? 'bg-brand-500 text-white' 
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                    }`}>
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className={`font-semibold ${
+                        formData.isForSelf === 'no' 
+                          ? 'text-brand-700 dark:text-brand-400' 
+                          : 'text-gray-900 dark:text-white'
+                      }`}>
+                        No, for someone else
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        A family member or friend
+                      </p>
+                    </div>
+                    {formData.isForSelf === 'no' && (
+                      <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-brand-500" />
+                    )}
+                  </label>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+                  Your Contact Information
+                </p>
+              </div>
+
               {/* Name Fields */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <Input
@@ -174,14 +343,72 @@ export function FindCareForm() {
                 required
               />
 
-              {/* ZIP Code */}
-              <Input
-                label="ZIP Code"
-                placeholder="Enter your ZIP code"
-                value={formData.zipCode}
-                onChange={handleInputChange('zipCode')}
-                required
-              />
+              {/* ZIP Code with Validation */}
+              <div className="space-y-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  ZIP Code
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.zipCode}
+                    onChange={handleZipChange}
+                    onBlur={() => setZipTouched(true)}
+                    placeholder="Enter your ZIP code"
+                    maxLength={10}
+                    className={`w-full px-4 py-3 text-base rounded-xl border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-4 transition-all ${
+                      showZipFormatError || showZipApiError
+                        ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10'
+                        : zipValidationResult?.valid
+                          ? 'border-emerald-400 focus:border-emerald-500 focus:ring-emerald-500/10'
+                          : 'border-gray-300 dark:border-gray-700 focus:border-brand-500 focus:ring-brand-500/10'
+                    }`}
+                    required
+                  />
+                  {/* Loading indicator */}
+                  {zipValidating && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <Loader2 className="w-5 h-5 text-brand-500 animate-spin" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Format error */}
+                {showZipFormatError && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-1 text-sm text-red-500"
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                    Please enter a valid 5-digit ZIP code
+                  </motion.p>
+                )}
+
+                {/* API error (ZIP not found) */}
+                {showZipApiError && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-1 text-sm text-red-500"
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                    {zipValidationResult?.error || 'ZIP code not found'}
+                  </motion.p>
+                )}
+
+                {/* Location display on success */}
+                {zipValidationResult?.valid && zipValidationResult.city && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-1 text-sm text-emerald-600"
+                  >
+                    <MapPin className="w-4 h-4" />
+                    {zipValidationResult.city}, {zipValidationResult.stateAbbr || zipValidationResult.state}
+                  </motion.p>
+                )}
+              </div>
 
               {/* Submit */}
               <div className="pt-4">
@@ -189,19 +416,28 @@ export function FindCareForm() {
                   type="submit"
                   fullWidth
                   size="xl"
-                  className="text-base font-semibold"
-                  rightIcon={<ArrowRight className="w-5 h-5" />}
+                  disabled={!isZipValid || zipValidating}
+                  className={`text-base font-semibold ${
+                    !isZipValid || zipValidating ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  rightIcon={
+                    zipValidating ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <ArrowRight className="w-5 h-5" />
+                    )
+                  }
                 >
-                  Get My Jybek Matches
+                  {zipValidating ? 'Validating ZIP...' : 'Request a Call Back'}
                 </Button>
               </div>
 
               {/* Trust indicators */}
               <div className="flex justify-center gap-6 pt-4">
                 {[
-                  { icon: Shield, text: '100% Free' },
-                  { icon: Clock, text: 'No Obligation' },
-                  { icon: Heart, text: 'Secure' },
+                  { icon: Shield, text: 'Free Consultation' },
+                  { icon: Clock, text: 'Quick Response' },
+                  { icon: Heart, text: 'No Obligation' },
                 ].map((item) => (
                   <span key={item.text} className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
                     <item.icon className="w-4 h-4 text-emerald-500" />
@@ -219,7 +455,7 @@ export function FindCareForm() {
             transition={{ delay: 0.4 }}
             className="text-center mt-8"
           >
-            <p className="text-white/70 mb-2">Prefer to speak with someone?</p>
+            <p className="text-white/70 mb-2">Want to speak with us directly?</p>
             <a 
               href="tel:+1 888-717-5009" 
               className="inline-flex items-center gap-2 text-white font-semibold text-lg hover:text-brand-200 transition-colors"

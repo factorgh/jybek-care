@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Eye, EyeOff, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, AlertCircle, Loader2, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -66,6 +67,22 @@ export default function AdminLoginPage() {
         }} />
       </div>
 
+      {/* Back to Website Button - Top Left */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="absolute top-6 left-6"
+      >
+        <Link 
+          href="/"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl text-white font-medium transition-all group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>Back to Website</span>
+        </Link>
+      </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -73,9 +90,9 @@ export default function AdminLoginPage() {
         className="relative w-full max-w-md"
       >
         <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-8 md:p-10">
-          {/* Logo */}
+          {/* Logo - Clickable */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center mb-4">
+            <Link href="/" className="inline-flex items-center justify-center mb-4 hover:opacity-80 transition-opacity">
               <Image
                 src="/images/logo/jybek_logo.webp"
                 alt="Jybek Home Care"
@@ -83,7 +100,7 @@ export default function AdminLoginPage() {
                 height={60}
                 className="h-12 w-auto"
               />
-            </div>
+            </Link>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               Admin Portal
             </h1>

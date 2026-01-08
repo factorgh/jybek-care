@@ -197,8 +197,8 @@ export function Hero() {
               transition={{ delay: 0.4 }}
               className="text-lg sm:text-xl text-white/80 mb-8 max-w-xl mx-auto lg:mx-0"
             >
-              Connect with verified, compassionate caregivers in your area. 
-              Free matching service with no obligation.
+              Professional, compassionate home care services tailored to your needs. 
+              Our dedicated team is here to help.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -215,7 +215,7 @@ export function Hero() {
                     className="bg-white text-brand-700 hover:bg-gray-100 shadow-xl shadow-black/20 text-base font-semibold px-8"
                     rightIcon={<ArrowRight className="h-5 w-5" />}
                   >
-                    Find Jybek Care Now
+                    Request a Consultation
                   </Button>
                 </motion.div>
               </Link>
@@ -240,7 +240,7 @@ export function Hero() {
               transition={{ delay: 0.6 }}
               className="flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3"
             >
-              {['Background Checked', 'Available 24/7', '100% Free'].map((item) => (
+              {['Background Checked Caregivers', 'Available 24/7', 'Free Consultation'].map((item) => (
                 <div key={item} className="flex items-center gap-2 text-white/90">
                   <CheckCircle className="w-5 h-5 text-cyan-300" />
                   <span className="text-sm font-medium">{item}</span>
@@ -261,10 +261,10 @@ export function Hero() {
               {/* Card Header */}
               <div className="text-center mb-6 text-white">
                 <h2 className="text-2xl font-bold text-white mb-1 mt-6">
-                  Find Jybek Care Near You
+                  Get Started with Jybek Care
                 </h2>
                 <p className="text-white/30 dark:text-gray-400 text-sm">
-                  Free, no-obligation Jybek care matching
+                  Enter your ZIP and we&apos;ll reach out to you
                 </p>
               </div>
 
@@ -363,7 +363,7 @@ export function Hero() {
                     )
                   }
                 >
-                  {validating ? 'Validating...' : 'Find Jybek Care Now'}
+                  {validating ? 'Validating...' : 'Get Started'}
                 </Button>
               </motion.div>
 
@@ -377,7 +377,7 @@ export function Hero() {
 
               {/* Bottom Trust */}
               <div className="flex justify-center gap-4 mt-5 pt-5 border-t border-gray-100 dark:border-gray-800">
-                {['100% Free', 'No Obligation', 'Secure'].map((item) => (
+                {['Free Consultation', 'Quick Response', 'No Obligation'].map((item) => (
                   <span key={item} className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                     <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
                     {item}
