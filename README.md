@@ -197,7 +197,11 @@ MIT License - feel free to use this project for your own purposes.
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+admin@jybekhomecares.com
+JybekAdmin2024!
+
 ---
 
 Built with ❤️ for families who care
 
+mongodb+srv://abdulaziz021099_db_user:Rosemondlamptey@cluster40.bxny3in.mongodb.net/?appName=Cluster40

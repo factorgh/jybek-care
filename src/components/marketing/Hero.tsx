@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -12,21 +12,23 @@ import {
   ArrowRight,
   Star,
   AlertCircle,
+  MapPin,
+  Loader2,
 } from 'lucide-react';
-
-// Care type options
-const careTypes = [
-  'In-Home Care',
-  'Assisted Living', 
-  'Memory Care',
-  'Respite Care',
-];
 
 // YouTube video ID
 const YOUTUBE_VIDEO_ID = 'qHaDRNWvVtY';
 
 // ZIP code validation regex (US 5-digit or 5+4 format)
 const ZIP_CODE_REGEX = /^\d{5}(-\d{4})?$/;
+
+interface ZipValidationResult {
+  valid: boolean;
+  city?: string;
+  state?: string;
+  stateAbbr?: string;
+  error?: string;
+}
 
 /**
  * Eye-catching, marketable Hero section with YouTube background
@@ -35,10 +37,49 @@ export function Hero() {
   const router = useRouter();
   const [zipCode, setZipCode] = useState('');
   const [touched, setTouched] = useState(false);
+  const [validating, setValidating] = useState(false);
+  const [validationResult, setValidationResult] = useState<ZipValidationResult | null>(null);
 
-  // Validate ZIP code
-  const isValidZip = useMemo(() => ZIP_CODE_REGEX.test(zipCode.trim()), [zipCode]);
-  const showError = touched && zipCode.length > 0 && !isValidZip;
+  // Basic format validation
+  const isValidFormat = useMemo(() => ZIP_CODE_REGEX.test(zipCode.trim()), [zipCode]);
+  
+  // Overall validity (format + API validation if available)
+  const isValidZip = isValidFormat && (validationResult === null || validationResult.valid);
+  const showError = touched && zipCode.length > 0 && !isValidFormat;
+  const showApiError = touched && isValidFormat && validationResult && !validationResult.valid;
+
+  // Debounced API validation
+  const validateZipCode = useCallback(async (zip: string) => {
+    if (!ZIP_CODE_REGEX.test(zip.trim())) {
+      setValidationResult(null);
+      return;
+    }
+
+    setValidating(true);
+    try {
+      const response = await fetch(`/api/validate-zip?zip=${encodeURIComponent(zip.trim())}`);
+      const data = await response.json();
+      setValidationResult(data);
+    } catch {
+      // On error, allow form submission (format is valid)
+      setValidationResult({ valid: true });
+    } finally {
+      setValidating(false);
+    }
+  }, []);
+
+  // Validate ZIP code when it changes (debounced)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (zipCode.trim().length >= 5) {
+        validateZipCode(zipCode);
+      } else {
+        setValidationResult(null);
+      }
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [zipCode, validateZipCode]);
 
   // Handle ZIP code input - only allow numbers and hyphen
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,13 +88,13 @@ export function Hero() {
   };
 
   const handleGetCareOptions = () => {
-    if (isValidZip) {
+    if (isValidZip && !validating) {
       router.push(`/find-care?zip=${encodeURIComponent(zipCode.trim())}`);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && isValidZip) {
+    if (e.key === 'Enter' && isValidZip && !validating) {
       handleGetCareOptions();
     }
   };
@@ -232,20 +273,32 @@ export function Hero() {
                 <label className="block text-sm font-semibold text-white mb-2">
                   ZIP code where care is needed:
                 </label>
-                <input
-                  type="text"
-                  value={zipCode}
-                  onChange={handleZipChange}
-                  onBlur={() => setTouched(true)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Enter ZIP code (e.g., 12345)"
-                  maxLength={10}
-                  className={`w-full px-4 py-3 text-base rounded-xl border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-4 transition-all ${
-                    showError 
-                      ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' 
-                      : 'border-gray-200 dark:border-gray-700 focus:border-brand-500 focus:ring-brand-500/10'
-                  }`}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={zipCode}
+                    onChange={handleZipChange}
+                    onBlur={() => setTouched(true)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Enter ZIP code (e.g., 12345)"
+                    maxLength={10}
+                    className={`w-full px-4 py-3 text-base rounded-xl border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-4 transition-all ${
+                      showError || showApiError
+                        ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' 
+                        : validationResult?.valid
+                          ? 'border-emerald-400 focus:border-emerald-500 focus:ring-emerald-500/10'
+                          : 'border-gray-200 dark:border-gray-700 focus:border-brand-500 focus:ring-brand-500/10'
+                    }`}
+                  />
+                  {/* Loading indicator */}
+                  {validating && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <Loader2 className="w-5 h-5 text-brand-500 animate-spin" />
+                    </div>
+                  )}
+                </div>
+                
+                {/* Format error */}
                 {showError && (
                   <motion.p 
                     initial={{ opacity: 0, y: -5 }}
@@ -256,33 +309,61 @@ export function Hero() {
                     Please enter a valid 5-digit ZIP code
                   </motion.p>
                 )}
+                
+                {/* API error (ZIP not found) */}
+                {showApiError && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-1 mt-2 text-sm text-red-400"
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                    {validationResult?.error || 'ZIP code not found'}
+                  </motion.p>
+                )}
+                
+                {/* Location display on success */}
+                {validationResult?.valid && validationResult.city && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-1 mt-2 text-sm text-emerald-400"
+                  >
+                    <MapPin className="w-4 h-4" />
+                    {validationResult.city}, {validationResult.stateAbbr || validationResult.state}
+                  </motion.p>
+                )}
               </div>
 
               {/* Submit Button */}
               <motion.div 
-                whileHover={isValidZip ? { scale: 1.02 } : {}} 
-                whileTap={isValidZip ? { scale: 0.98 } : {}}
+                whileHover={isValidZip && !validating ? { scale: 1.02 } : {}} 
+                whileTap={isValidZip && !validating ? { scale: 0.98 } : {}}
               >
                 <Button
                   fullWidth
                   size="lg"
                   onClick={handleGetCareOptions}
-                  disabled={!isValidZip}
+                  disabled={!isValidZip || validating}
                   className={`text-base font-semibold shadow-brand-500/30 ${
-                    !isValidZip 
+                    !isValidZip || validating
                       ? 'opacity-50 cursor-not-allowed' 
                       : ''
                   }`}
                   rightIcon={
-                    <motion.div
-                      animate={isValidZip ? { x: [0, 4, 0] } : {}}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRight className="h-5 w-5" />
-                    </motion.div>
+                    validating ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <motion.div
+                        animate={isValidZip ? { x: [0, 4, 0] } : {}}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <ArrowRight className="h-5 w-5" />
+                      </motion.div>
+                    )
                   }
                 >
-                  Find Jybek Care Now
+                  {validating ? 'Validating...' : 'Find Jybek Care Now'}
                 </Button>
               </motion.div>
 
