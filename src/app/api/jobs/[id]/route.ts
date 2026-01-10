@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db/mongodb';
-import { Job } from '@/lib/db/models';
-import { getSession } from '@/lib/auth/jwt';
+import { NextRequest, NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/db/mongodb";
+import { Job } from "@/lib/db/models";
+import { getSession } from "@/lib/auth/jwt";
 
 // GET single job
 export async function GET(
@@ -14,25 +14,19 @@ export async function GET(
 
     // Try to find by ID first, then by slug
     let job = await Job.findById(id).lean();
-    
+
     if (!job) {
       job = await Job.findOne({ slug: id }).lean();
     }
 
     if (!job) {
-      return NextResponse.json(
-        { error: 'Job not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
     }
 
     return NextResponse.json({ job });
   } catch (error) {
-    console.error('Get job error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch job' },
-      { status: 500 }
-    );
+    console.error("Get job error:", error);
+    return NextResponse.json({ error: "Failed to fetch job" }, { status: 500 });
   }
 }
 
@@ -45,10 +39,7 @@ export async function PUT(
     const session = await getSession();
 
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
@@ -62,10 +53,7 @@ export async function PUT(
     );
 
     if (!job) {
-      return NextResponse.json(
-        { error: 'Job not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -73,9 +61,9 @@ export async function PUT(
       job,
     });
   } catch (error) {
-    console.error('Update job error:', error);
+    console.error("Update job error:", error);
     return NextResponse.json(
-      { error: 'Failed to update job' },
+      { error: "Failed to update job" },
       { status: 500 }
     );
   }
@@ -90,10 +78,7 @@ export async function DELETE(
     const session = await getSession();
 
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
@@ -102,22 +87,18 @@ export async function DELETE(
     const job = await Job.findByIdAndDelete(id);
 
     if (!job) {
-      return NextResponse.json(
-        { error: 'Job not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Job deleted successfully',
+      message: "Job deleted successfully",
     });
   } catch (error) {
-    console.error('Delete job error:', error);
+    console.error("Delete job error:", error);
     return NextResponse.json(
-      { error: 'Failed to delete job' },
+      { error: "Failed to delete job" },
       { status: 500 }
     );
   }
 }
-

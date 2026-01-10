@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db/mongodb';
-import { Article } from '@/lib/db/models';
-import { getSession } from '@/lib/auth/jwt';
+import { NextRequest, NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/db/mongodb";
+import { Article } from "@/lib/db/models";
+import { getSession } from "@/lib/auth/jwt";
 
 // GET single article
 export async function GET(
@@ -14,23 +14,20 @@ export async function GET(
 
     // Try to find by ID first, then by slug
     let article = await Article.findById(id).lean();
-    
+
     if (!article) {
       article = await Article.findOne({ slug: id }).lean();
     }
 
     if (!article) {
-      return NextResponse.json(
-        { error: 'Article not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
     return NextResponse.json({ article });
   } catch (error) {
-    console.error('Get article error:', error);
+    console.error("Get article error:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch article' },
+      { error: "Failed to fetch article" },
       { status: 500 }
     );
   }
@@ -45,10 +42,7 @@ export async function PUT(
     const session = await getSession();
 
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
@@ -62,10 +56,7 @@ export async function PUT(
     );
 
     if (!article) {
-      return NextResponse.json(
-        { error: 'Article not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -73,9 +64,9 @@ export async function PUT(
       article,
     });
   } catch (error) {
-    console.error('Update article error:', error);
+    console.error("Update article error:", error);
     return NextResponse.json(
-      { error: 'Failed to update article' },
+      { error: "Failed to update article" },
       { status: 500 }
     );
   }
@@ -90,10 +81,7 @@ export async function DELETE(
     const session = await getSession();
 
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
@@ -102,22 +90,18 @@ export async function DELETE(
     const article = await Article.findByIdAndDelete(id);
 
     if (!article) {
-      return NextResponse.json(
-        { error: 'Article not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Article deleted successfully',
+      message: "Article deleted successfully",
     });
   } catch (error) {
-    console.error('Delete article error:', error);
+    console.error("Delete article error:", error);
     return NextResponse.json(
-      { error: 'Failed to delete article' },
+      { error: "Failed to delete article" },
       { status: 500 }
     );
   }
 }
-
