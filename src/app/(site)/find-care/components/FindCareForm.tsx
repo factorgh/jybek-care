@@ -173,9 +173,11 @@ export function FindCareForm() {
       };
 
       // Send to our secure API route instead of external API directly
-      const apiKey = process.env.JYBEK_API_KEY;
+      const apiKey = process.env.NEXT_PUBLIC_JYBEK_API_KEY;
       if (!apiKey) {
-        console.error("JYBEK_API_KEY environment variable is not set");
+        console.error(
+          "NEXT_PUBLIC_JYBEK_API_KEY environment variable is not set"
+        );
         throw new Error("Server configuration error");
       }
       const response = await fetch(
