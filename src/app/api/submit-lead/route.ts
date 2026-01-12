@@ -15,12 +15,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Get API key from environment variables
-    const apiKey = process.env.NEXT_PUBLIC_JYBEK_API_KEY;
+    // Get API key from environment variables (server-side, no NEXT_PUBLIC prefix)
+    const apiKey = process.env.JYBEK_API_KEY;
     if (!apiKey) {
-      console.error(
-        "NEXT_PUBLIC_JYBEK_API_KEY environment variable is not set"
-      );
+      console.error("JYBEK_API_KEY environment variable is not set");
       return NextResponse.json(
         { error: "Server configuration error" },
         { status: 500 }
