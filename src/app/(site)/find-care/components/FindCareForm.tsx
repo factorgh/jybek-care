@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Button, Input } from '@/components/ui';
-import { 
-  ArrowRight, 
-  CheckCircle, 
+import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Button, Input } from "@/components/ui";
+import {
+  ArrowRight,
+  CheckCircle,
   Phone,
   Shield,
   Clock,
@@ -17,7 +17,7 @@ import {
   MapPin,
   AlertCircle,
   Loader2,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ZIP code validation regex (US 5-digit or 5+4 format)
 const ZIP_CODE_REGEX = /^\d{5}(-\d{4})?$/;
@@ -36,18 +36,26 @@ interface ZipValidationResult {
 export function FindCareForm() {
   const searchParams = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    zipCode: '',
-    isForSelf: '', // 'yes' = for themselves, 'no' = for someone else
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    zipCode: "",
+    isForSelf: "", // 'yes' = for themselves, 'no' = for someone else
+    street: "",
+    aptSuite: "",
+    city: "",
+    state: "",
+    relationshipToRecipient: "",
   });
 
   // ZIP validation state
   const [zipValidating, setZipValidating] = useState(false);
-  const [zipValidationResult, setZipValidationResult] = useState<ZipValidationResult | null>(null);
+  const [zipValidationResult, setZipValidationResult] =
+    useState<ZipValidationResult | null>(null);
   const [zipTouched, setZipTouched] = useState(false);
 
   // Validate ZIP code via API
@@ -59,7 +67,9 @@ export function FindCareForm() {
 
     setZipValidating(true);
     try {
-      const response = await fetch(`/api/validate-zip?zip=${encodeURIComponent(zip.trim())}`);
+      const response = await fetch(
+        `/api/validate-zip?zip=${encodeURIComponent(zip.trim())}`
+      );
       const data = await response.json();
       setZipValidationResult(data);
     } catch {
@@ -72,9 +82,9 @@ export function FindCareForm() {
 
   // Pre-populate ZIP code from URL params and validate it
   useEffect(() => {
-    const zipFromUrl = searchParams.get('zip');
+    const zipFromUrl = searchParams.get("zip");
     if (zipFromUrl) {
-      setFormData(prev => ({ ...prev, zipCode: zipFromUrl }));
+      setFormData((prev) => ({ ...prev, zipCode: zipFromUrl }));
       setZipTouched(true);
       // Validate the pre-populated ZIP
       validateZipCode(zipFromUrl);
@@ -94,31 +104,98 @@ export function FindCareForm() {
     return () => clearTimeout(timer);
   }, [formData.zipCode, validateZipCode]);
 
-  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }));
-  };
+  const handleInputChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    };
 
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^\d-]/g, '').slice(0, 10);
-    setFormData(prev => ({ ...prev, zipCode: value }));
+    const value = e.target.value.replace(/[^\d-]/g, "").slice(0, 10);
+    setFormData((prev) => ({ ...prev, zipCode: value }));
   };
 
   const handleRadioChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   // Check if ZIP is valid
   const isZipFormatValid = ZIP_CODE_REGEX.test(formData.zipCode.trim());
-  const isZipValid = isZipFormatValid && (zipValidationResult === null || zipValidationResult.valid);
-  const showZipFormatError = zipTouched && formData.zipCode.length > 0 && !isZipFormatValid;
-  const showZipApiError = zipTouched && isZipFormatValid && zipValidationResult && !zipValidationResult.valid;
+  const isZipValid =
+    isZipFormatValid &&
+    (zipValidationResult === null || zipValidationResult.valid);
+  const showZipFormatError =
+    zipTouched && formData.zipCode.length > 0 && !isZipFormatValid;
+  const showZipApiError =
+    zipTouched &&
+    isZipFormatValid &&
+    zipValidationResult &&
+    !zipValidationResult.valid;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isZipValid || zipValidating) return;
-    // Here you would typically send the data to your backend
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Prepare the API payload based on radio button selection
+      const payload = {
+        street: formData.street,
+        apt_suite: formData.aptSuite,
+        city: formData.city || zipValidationResult?.city || "",
+        state:
+          formData.state ||
+          zipValidationResult?.stateAbbr ||
+          zipValidationResult?.state ||
+          "",
+        zip_code: formData.zipCode,
+        // Dynamic fields based on who the care is for
+        ...(formData.isForSelf === "yes"
+          ? {
+              contact_full_name: `${formData.firstName} ${formData.lastName}`,
+              contact_phone: formData.phone,
+              contact_email: formData.email,
+              relationship_to_recipient: "",
+              care_recipient_full_name: "",
+              care_recipient_phone: "",
+              care_recipient_email: "",
+            }
+          : {
+              contact_full_name: "",
+              contact_phone: "",
+              contact_email: "",
+              relationship_to_recipient: formData.relationshipToRecipient,
+              care_recipient_full_name: `${formData.firstName} ${formData.lastName}`,
+              care_recipient_phone: formData.phone,
+              care_recipient_email: formData.email,
+            }),
+      };
+
+      // Send to our secure API route instead of external API directly
+      const response = await fetch("/api/submit-lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("API Response:", result);
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmitError(
+        "Failed to submit your request. Please try again or call us directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -126,7 +203,7 @@ export function FindCareForm() {
       <section className="min-h-screen relative overflow-hidden">
         <div className="absolute inset-0 hero-gradient" />
         <div className="absolute inset-0 dot-pattern opacity-20" />
-        
+
         <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-40 pb-20">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -136,23 +213,27 @@ export function FindCareForm() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring' }}
+              transition={{ delay: 0.2, type: "spring" }}
               className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6"
             >
               <CheckCircle className="w-10 h-10 text-emerald-600" />
             </motion.div>
-            
+
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               Thank You for Reaching Out!
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-              We&apos;ve received your information. A Jybek care specialist will reach out to you within 24 hours to discuss your care needs and how we can help.
+              We&apos;ve received your information. A Jybek care specialist will
+              reach out to you within 24 hours to discuss your care needs and
+              how we can help.
             </p>
-            
+
             <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 mb-8">
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Need to speak with us sooner?</p>
-              <a 
-                href="tel:+1 888-717-5009" 
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                Need to speak with us sooner?
+              </p>
+              <a
+                href="tel:+1 888-717-5009"
                 className="inline-flex items-center gap-2 text-xl font-bold text-brand-600"
               >
                 <Phone className="w-5 h-5" />
@@ -188,7 +269,8 @@ export function FindCareForm() {
             Get Started with Jybek Home Care
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Share your details and our care team will reach out to discuss how we can help.
+            Share your details and our care team will reach out to discuss how
+            we can help.
           </p>
         </motion.div>
 
@@ -205,7 +287,8 @@ export function FindCareForm() {
                 Request a Consultation
               </h2>
               <p className="text-gray-500 dark:text-gray-400">
-                Tell us a little about yourself and we&apos;ll contact you to discuss your care needs.
+                Tell us a little about yourself and we&apos;ll contact you to
+                discuss your care needs.
               </p>
             </div>
 
@@ -219,39 +302,43 @@ export function FindCareForm() {
                   {/* Yes - For myself */}
                   <label
                     className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                      formData.isForSelf === 'yes'
-                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                      formData.isForSelf === "yes"
+                        ? "border-brand-500 bg-brand-50 dark:bg-brand-900/20"
+                        : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                     }`}
                   >
                     <input
                       type="radio"
                       name="isForSelf"
                       value="yes"
-                      checked={formData.isForSelf === 'yes'}
-                      onChange={() => handleRadioChange('isForSelf', 'yes')}
+                      checked={formData.isForSelf === "yes"}
+                      onChange={() => handleRadioChange("isForSelf", "yes")}
                       className="sr-only"
                     />
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      formData.isForSelf === 'yes' 
-                        ? 'bg-brand-500 text-white' 
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                    }`}>
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        formData.isForSelf === "yes"
+                          ? "bg-brand-500 text-white"
+                          : "bg-gray-100 dark:bg-gray-800 text-gray-500"
+                      }`}
+                    >
                       <User className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className={`font-semibold ${
-                        formData.isForSelf === 'yes' 
-                          ? 'text-brand-700 dark:text-brand-400' 
-                          : 'text-gray-900 dark:text-white'
-                      }`}>
+                      <p
+                        className={`font-semibold ${
+                          formData.isForSelf === "yes"
+                            ? "text-brand-700 dark:text-brand-400"
+                            : "text-gray-900 dark:text-white"
+                        }`}
+                      >
                         Yes, for myself
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         I need care services
                       </p>
                     </div>
-                    {formData.isForSelf === 'yes' && (
+                    {formData.isForSelf === "yes" && (
                       <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-brand-500" />
                     )}
                   </label>
@@ -259,39 +346,43 @@ export function FindCareForm() {
                   {/* No - For someone else */}
                   <label
                     className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                      formData.isForSelf === 'no'
-                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                      formData.isForSelf === "no"
+                        ? "border-brand-500 bg-brand-50 dark:bg-brand-900/20"
+                        : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                     }`}
                   >
                     <input
                       type="radio"
                       name="isForSelf"
                       value="no"
-                      checked={formData.isForSelf === 'no'}
-                      onChange={() => handleRadioChange('isForSelf', 'no')}
+                      checked={formData.isForSelf === "no"}
+                      onChange={() => handleRadioChange("isForSelf", "no")}
                       className="sr-only"
                     />
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      formData.isForSelf === 'no' 
-                        ? 'bg-brand-500 text-white' 
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                    }`}>
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        formData.isForSelf === "no"
+                          ? "bg-brand-500 text-white"
+                          : "bg-gray-100 dark:bg-gray-800 text-gray-500"
+                      }`}
+                    >
                       <Users className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className={`font-semibold ${
-                        formData.isForSelf === 'no' 
-                          ? 'text-brand-700 dark:text-brand-400' 
-                          : 'text-gray-900 dark:text-white'
-                      }`}>
+                      <p
+                        className={`font-semibold ${
+                          formData.isForSelf === "no"
+                            ? "text-brand-700 dark:text-brand-400"
+                            : "text-gray-900 dark:text-white"
+                        }`}
+                      >
                         No, for someone else
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         A family member or friend
                       </p>
                     </div>
-                    {formData.isForSelf === 'no' && (
+                    {formData.isForSelf === "no" && (
                       <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-brand-500" />
                     )}
                   </label>
@@ -311,14 +402,14 @@ export function FindCareForm() {
                   label="First Name"
                   placeholder="John"
                   value={formData.firstName}
-                  onChange={handleInputChange('firstName')}
+                  onChange={handleInputChange("firstName")}
                   required
                 />
                 <Input
                   label="Last Name"
                   placeholder="Smith"
                   value={formData.lastName}
-                  onChange={handleInputChange('lastName')}
+                  onChange={handleInputChange("lastName")}
                   required
                 />
               </div>
@@ -329,7 +420,7 @@ export function FindCareForm() {
                 type="email"
                 placeholder="john@example.com"
                 value={formData.email}
-                onChange={handleInputChange('email')}
+                onChange={handleInputChange("email")}
                 required
               />
 
@@ -339,9 +430,37 @@ export function FindCareForm() {
                 type="tel"
                 placeholder="(555) 123-4567"
                 value={formData.phone}
-                onChange={handleInputChange('phone')}
+                onChange={handleInputChange("phone")}
                 required
               />
+
+              {/* Relationship field - only show when applying for someone else */}
+              {formData.isForSelf === "no" && (
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Your Relationship to Care Recipient
+                  </label>
+                  <select
+                    value={formData.relationshipToRecipient}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        relationshipToRecipient: e.target.value,
+                      }))
+                    }
+                    className="w-full px-4 py-3 text-base rounded-xl border-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-4 focus:border-brand-500 focus:ring-brand-500/10 transition-all"
+                    required
+                  >
+                    <option value="">Select relationship</option>
+                    <option value="spouse">Spouse</option>
+                    <option value="child">Child</option>
+                    <option value="parent">Parent</option>
+                    <option value="sibling">Sibling</option>
+                    <option value="friend">Friend</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              )}
 
               {/* ZIP Code with Validation */}
               <div className="space-y-1">
@@ -358,10 +477,10 @@ export function FindCareForm() {
                     maxLength={10}
                     className={`w-full px-4 py-3 text-base rounded-xl border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-4 transition-all ${
                       showZipFormatError || showZipApiError
-                        ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10'
+                        ? "border-red-400 focus:border-red-500 focus:ring-red-500/10"
                         : zipValidationResult?.valid
-                          ? 'border-emerald-400 focus:border-emerald-500 focus:ring-emerald-500/10'
-                          : 'border-gray-300 dark:border-gray-700 focus:border-brand-500 focus:ring-brand-500/10'
+                        ? "border-emerald-400 focus:border-emerald-500 focus:ring-emerald-500/10"
+                        : "border-gray-300 dark:border-gray-700 focus:border-brand-500 focus:ring-brand-500/10"
                     }`}
                     required
                   />
@@ -393,7 +512,7 @@ export function FindCareForm() {
                     className="flex items-center gap-1 text-sm text-red-500"
                   >
                     <AlertCircle className="w-4 h-4" />
-                    {zipValidationResult?.error || 'ZIP code not found'}
+                    {zipValidationResult?.error || "ZIP code not found"}
                   </motion.p>
                 )}
 
@@ -405,10 +524,25 @@ export function FindCareForm() {
                     className="flex items-center gap-1 text-sm text-emerald-600"
                   >
                     <MapPin className="w-4 h-4" />
-                    {zipValidationResult.city}, {zipValidationResult.stateAbbr || zipValidationResult.state}
+                    {zipValidationResult.city},{" "}
+                    {zipValidationResult.stateAbbr || zipValidationResult.state}
                   </motion.p>
                 )}
               </div>
+
+              {/* Error Display */}
+              {submitError && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4"
+                >
+                  <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                    <AlertCircle className="w-5 h-5" />
+                    <p className="text-sm font-medium">{submitError}</p>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Submit */}
               <div className="pt-4">
@@ -416,30 +550,39 @@ export function FindCareForm() {
                   type="submit"
                   fullWidth
                   size="xl"
-                  disabled={!isZipValid || zipValidating}
+                  disabled={!isZipValid || zipValidating || isSubmitting}
                   className={`text-base font-semibold ${
-                    !isZipValid || zipValidating ? 'opacity-50 cursor-not-allowed' : ''
+                    !isZipValid || zipValidating || isSubmitting
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
                   }`}
                   rightIcon={
-                    zipValidating ? (
+                    isSubmitting || zipValidating ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                       <ArrowRight className="w-5 h-5" />
                     )
                   }
                 >
-                  {zipValidating ? 'Validating ZIP...' : 'Request a Call Back'}
+                  {isSubmitting
+                    ? "Submitting..."
+                    : zipValidating
+                    ? "Validating ZIP..."
+                    : "Request a Call Back"}
                 </Button>
               </div>
 
               {/* Trust indicators */}
               <div className="flex justify-center gap-6 pt-4">
                 {[
-                  { icon: Shield, text: 'Free Consultation' },
-                  { icon: Clock, text: 'Quick Response' },
-                  { icon: Heart, text: 'No Obligation' },
+                  { icon: Shield, text: "Free Consultation" },
+                  { icon: Clock, text: "Quick Response" },
+                  { icon: Heart, text: "No Obligation" },
                 ].map((item) => (
-                  <span key={item.text} className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+                  <span
+                    key={item.text}
+                    className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                  >
                     <item.icon className="w-4 h-4 text-emerald-500" />
                     {item.text}
                   </span>
@@ -455,9 +598,11 @@ export function FindCareForm() {
             transition={{ delay: 0.4 }}
             className="text-center mt-8"
           >
-            <p className="text-white/70 mb-2">Want to speak with us directly?</p>
-            <a 
-              href="tel:+1 888-717-5009" 
+            <p className="text-white/70 mb-2">
+              Want to speak with us directly?
+            </p>
+            <a
+              href="tel:+1 888-717-5009"
               className="inline-flex items-center gap-2 text-white font-semibold text-lg hover:text-brand-200 transition-colors"
             >
               <Phone className="w-5 h-5" />
@@ -481,4 +626,3 @@ export function FindCareForm() {
     </section>
   );
 }
-
