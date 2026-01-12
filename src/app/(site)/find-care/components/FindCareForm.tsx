@@ -173,13 +173,22 @@ export function FindCareForm() {
       };
 
       // Send to our secure API route instead of external API directly
-      const response = await fetch("/api/submit-lead", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const apiKey = process.env.JYBEK_API_KEY;
+      if (!apiKey) {
+        console.error("JYBEK_API_KEY environment variable is not set");
+        throw new Error("Server configuration error");
+      }
+      const response = await fetch(
+        "https://connect.jybekhomecares.com/leads/populate-from-api/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": apiKey,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`API request failed with status ${response.status}`);
