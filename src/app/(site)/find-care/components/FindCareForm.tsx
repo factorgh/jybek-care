@@ -43,6 +43,7 @@ export function FindCareForm() {
     lastName: "",
     email: "",
     phone: "",
+    countryCode: "+1", // Default to US
     zipCode: "",
     isForSelf: "", // 'yes' = for themselves, 'no' = for someone else
     street: "",
@@ -154,7 +155,7 @@ export function FindCareForm() {
         ...(formData.isForSelf === "yes"
           ? {
               contact_full_name: `${formData.firstName} ${formData.lastName}`,
-              contact_phone: formData.phone,
+              contact_phone: `${formData.countryCode}${formData.phone}`,
               contact_email: formData.email,
               relationship_to_recipient: "",
               care_recipient_full_name: "",
@@ -167,7 +168,7 @@ export function FindCareForm() {
               contact_email: "",
               relationship_to_recipient: formData.relationshipToRecipient,
               care_recipient_full_name: `${formData.firstName} ${formData.lastName}`,
-              care_recipient_phone: formData.phone,
+              care_recipient_phone: `${formData.countryCode}${formData.phone}`,
               care_recipient_email: formData.email,
             }),
       };
@@ -436,14 +437,107 @@ export function FindCareForm() {
               />
 
               {/* Phone */}
-              <Input
-                label="Phone"
-                type="tel"
-                placeholder="(555) 123-4567"
-                value={formData.phone}
-                onChange={handleInputChange("phone")}
-                required
-              />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Phone Number
+                </label>
+                <div className="flex gap-2">
+                  <select
+                    value={formData.countryCode}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        countryCode: e.target.value,
+                      }))
+                    }
+                    className="px-3 py-3 text-base rounded-xl border-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-4 focus:border-brand-500 focus:ring-brand-500/10 transition-all"
+                  >
+                    <optgroup label="North America">
+                      <option value="+1">🇺🇸 United States (+1)</option>
+                      <option value="+1">🇨🇦 Canada (+1)</option>
+                      <option value="+52">🇲🇽 Mexico (+52)</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                      <option value="+44">🇬🇧 United Kingdom (+44)</option>
+                      <option value="+33">🇫🇷 France (+33)</option>
+                      <option value="+49">🇩🇪 Germany (+49)</option>
+                      <option value="+39">🇮🇹 Italy (+39)</option>
+                      <option value="+34">🇪🇸 Spain (+34)</option>
+                      <option value="+31">�🇱 Netherlands (+31)</option>
+                      <option value="+41">�🇨� Switzerland (+41)</option>
+                      <option value="+46">🇸🇪 Sweden (+46)</option>
+                      <option value="+47">🇳🇴 Norway (+47)</option>
+                      <option value="+45">🇩🇰 Denmark (+45)</option>
+                      <option value="+358">🇫🇮 Finland (+358)</option>
+                      <option value="+43">🇦🇹 Austria (+43)</option>
+                      <option value="+32">🇧🇪 Belgium (+32)</option>
+                      <option value="+351">�� Portugal (+351)</option>
+                      <option value="+48">🇵🇱 Poland (+48)</option>
+                    </optgroup>
+                    <optgroup label="Asia">
+                      <option value="+91">🇮🇳 India (+91)</option>
+                      <option value="+86">🇨🇳 China (+86)</option>
+                      <option value="+81">🇯🇵 Japan (+81)</option>
+                      <option value="+82">🇰🇷 South Korea (+82)</option>
+                      <option value="+65">🇸🇬 Singapore (+65)</option>
+                      <option value="+60">🇲🇾 Malaysia (+60)</option>
+                      <option value="+66">🇹🇭 Thailand (+66)</option>
+                      <option value="+62">🇮🇩 Indonesia (+62)</option>
+                      <option value="+63">🇵🇭 Philippines (+63)</option>
+                      <option value="+84">🇻🇳 Vietnam (+84)</option>
+                      <option value="+852">🇭🇰 Hong Kong (+852)</option>
+                      <option value="+886">🇹🇼 Taiwan (+886)</option>
+                    </optgroup>
+                    <optgroup label="Africa">
+                      <option value="+233">🇬🇭 Ghana (+233)</option>
+                      <option value="+234">🇳🇬 Nigeria (+234)</option>
+                      <option value="+27">🇿🇦 South Africa (+27)</option>
+                      <option value="+254">🇰🇪 Kenya (+254)</option>
+                      <option value="+256">🇺🇬 Uganda (+256)</option>
+                      <option value="+251">🇪🇹 Ethiopia (+251)</option>
+                      <option value="+20">��🇬 Egypt (+20)</option>
+                      <option value="+212">🇲🇦 Morocco (+212)</option>
+                      <option value="+216">🇹🇳 Tunisia (+216)</option>
+                      <option value="+213">🇩🇿 Algeria (+213)</option>
+                      <option value="+24">🇿🇦 South Africa (+27)</option>
+                    </optgroup>
+                    <optgroup label="Oceania">
+                      <option value="+61">🇦🇺 Australia (+61)</option>
+                      <option value="+64">🇳🇿 New Zealand (+64)</option>
+                      <option value="+679">🇫🇯 Fiji (+679)</option>
+                      <option value="+682">🇨🇰 Cook Islands (+682)</option>
+                    </optgroup>
+                    <optgroup label="South America">
+                      <option value="+55">🇧🇷 Brazil (+55)</option>
+                      <option value="+54">🇦🇷 Argentina (+54)</option>
+                      <option value="+56">🇨🇱 Chile (+56)</option>
+                      <option value="+57">🇨🇴 Colombia (+57)</option>
+                      <option value="+51">🇵🇪 Peru (+51)</option>
+                      <option value="+58">🇻🇪 Venezuela (+58)</option>
+                      <option value="+593">🇪🇨 Ecuador (+593)</option>
+                    </optgroup>
+                    <optgroup label="Middle East">
+                      <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
+                      <option value="+971">
+                        🇦🇪 United Arab Emirates (+971)
+                      </option>
+                      <option value="+968">🇴🇲 Oman (+968)</option>
+                      <option value="+973">🇧🇭 Bahrain (+973)</option>
+                      <option value="+965">🇰🇼 Kuwait (+965)</option>
+                      <option value="+962">🇯🇴 Jordan (+962)</option>
+                      <option value="+964">🇮🇶 Iraq (+964)</option>
+                    </optgroup>
+                  </select>
+                  <input
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={formData.phone}
+                    onChange={handleInputChange("phone")}
+                    className="flex-1 px-4 py-3 text-base rounded-xl border-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-4 focus:border-brand-500 focus:ring-brand-500/10 transition-all"
+                    required
+                  />
+                </div>
+              </div>
 
               {/* Relationship field - only show when applying for someone else */}
               {formData.isForSelf === "no" && (
