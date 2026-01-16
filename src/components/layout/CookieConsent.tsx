@@ -12,12 +12,28 @@ interface CookieConsentProps {
 export function CookieConsent({ onAccept, onDecline }: CookieConsentProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Check if user has already made a choice
-    const consent = localStorage.getItem("cookie-consent");
-    if (!consent) {
-      // Show banner after a short delay to avoid immediate popup
+    // Mark that we're on client-side
+    setIsClient(true);
+
+    // Only run on client-side
+    if (typeof window === "undefined") return;
+
+    try {
+      // Check if user has already made a choice
+      const consent = localStorage.getItem("cookie-consent");
+      if (!consent) {
+        // Show banner after a short delay to avoid immediate popup
+        const timer = setTimeout(() => {
+          setIsVisible(true);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
+    } catch (error) {
+      console.error("Cookie consent error:", error);
+      // Fallback: show banner if localStorage fails
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 1000);
@@ -26,13 +42,27 @@ export function CookieConsent({ onAccept, onDecline }: CookieConsentProps) {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem("cookie-consent", "accepted");
+    try {
+      // Only run on client-side
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cookie-consent", "accepted");
+      }
+    } catch (error) {
+      console.error("Failed to save cookie consent:", error);
+    }
     setIsVisible(false);
     onAccept?.();
   };
 
   const handleDecline = () => {
-    localStorage.setItem("cookie-consent", "declined");
+    try {
+      // Only run on client-side
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cookie-consent", "declined");
+      }
+    } catch (error) {
+      console.error("Failed to save cookie consent:", error);
+    }
     setIsVisible(false);
     onDecline?.();
   };
@@ -41,7 +71,7 @@ export function CookieConsent({ onAccept, onDecline }: CookieConsentProps) {
     setShowDetails(!showDetails);
   };
 
-  if (!isVisible) return null;
+  if (!isVisible || !isClient) return null;
 
   return (
     <AnimatePresence>
