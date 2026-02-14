@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -139,10 +139,14 @@ const mockJobs = [
   },
 ];
 
-export default function JobApplicationPage() {
+function JobApplicationPageWrapper() {
   const searchParams = useSearchParams();
   const positionId = searchParams.get("position");
 
+  return <JobApplicationPage positionId={positionId} />;
+}
+
+function JobApplicationPage({ positionId }: { positionId: string | null }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -333,7 +337,7 @@ export default function JobApplicationPage() {
                 : `Apply for ${selectedJob?.title || "Position"}`}
             </h1>
             <p className="text-white/90">
-              Join our team and make a difference in people's lives
+              Join our team and make a difference in people&apos;s lives
             </p>
           </div>
         </div>
@@ -689,5 +693,19 @@ export default function JobApplicationPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function JobApplicationPageWithSuspense() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
+        </div>
+      }
+    >
+      <JobApplicationPageWrapper />
+    </Suspense>
   );
 }
