@@ -14,8 +14,11 @@ import {
   Star,
   Users,
   Award,
+  Play,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
+import { VideoModal } from '@/components/marketing/VideoModal';
+import { useState } from 'react';
 
 interface ServiceFeature {
   title: string;
@@ -44,6 +47,7 @@ interface ServiceDetailProps {
   whoIsItFor: string[];
   faqs: FAQ[];
   relatedServices: { title: string; href: string }[];
+  videoId?: string;
 }
 
 export function ServiceDetailLayout({
@@ -57,9 +61,13 @@ export function ServiceDetailLayout({
   whoIsItFor,
   faqs,
   relatedServices,
+  videoId,
 }: ServiceDetailProps) {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
   return (
-    <main className="min-h-screen">
+    <>
+      <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-800 overflow-hidden">
         <div className="absolute inset-0">
@@ -93,6 +101,17 @@ export function ServiceDetailLayout({
                     Get Started Today
                   </Button>
                 </Link>
+                {videoId && (
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white/30 text-white hover:bg-white/10"
+                    leftIcon={<Play className="w-5 h-5 fill-current" />}
+                    onClick={() => setIsVideoModalOpen(true)}
+                  >
+                    Watch Video
+                  </Button>
+                )}
                 <a href="tel:+18887175009">
                   <Button
                     size="lg"
@@ -112,15 +131,31 @@ export function ServiceDetailLayout({
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative hidden lg:block"
             >
-              <div className="relative h-[450px] rounded-2xl overflow-hidden shadow-2xl">
+              <div 
+                className={`relative h-[450px] rounded-2xl overflow-hidden shadow-2xl ${videoId ? 'cursor-pointer group' : ''}`}
+                onClick={videoId ? () => setIsVideoModalOpen(true) : undefined}
+              >
                 <Image
-                  src={heroImage}
+                  src={videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : heroImage}
                   alt={title}
                   fill
-                  className="object-cover"
+                  className={`object-cover transition-transform duration-500 ${videoId ? 'group-hover:scale-105' : ''}`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/30 to-transparent transition-colors group-hover:bg-black/20" />
+                
+                {videoId && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="w-20 h-20 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-brand-600 shadow-xl"
+                    >
+                      <Play className="w-8 h-8 fill-current translate-x-1" />
+                    </motion.div>
+                  </div>
+                )}
               </div>
+              
               {/* Trust Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -389,6 +424,15 @@ export function ServiceDetailLayout({
         </div>
       </section>
     </main>
+      
+      {videoId && (
+        <VideoModal
+          isOpen={isVideoModalOpen}
+          onClose={() => setIsVideoModalOpen(false)}
+          videoId={videoId}
+        />
+      )}
+    </>
   );
 }
 

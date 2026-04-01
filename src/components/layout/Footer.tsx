@@ -29,12 +29,12 @@ const footerLinks = {
   services: {
     title: 'Jybek Services',
     links: [
-      { label: 'Jybek Personal Care', href: '/services#personal-care' },
-      { label: 'Jybek Companion Care', href: '/services#companion-care' },
-      { label: 'Jybek Memory Care', href: '/services#specialized-care' },
-      { label: 'Jybek Skilled Nursing', href: '/services#skilled-nursing' },
-      { label: 'Jybek Respite Care', href: '/services#respite-care' },
-      { label: 'Jybek Assisted Living', href: '/services#assisted-living' },
+      { label: 'Personal Care', href: '/services/personal-care' },
+      { label: 'Companion Care', href: '/services/companion-care' },
+      { label: "Alzheimer's & Dementia", href: '/services/alzheimers-dementia' },
+      { label: '24-Hour Care', href: '/services/24-hour-care' },
+      { label: 'Respite Care', href: '/services/respite-care' },
+      { label: 'Transitional Care', href: '/services/transitional-care' },
     ],
   },
   resources: {
@@ -142,9 +142,9 @@ export function Footer() {
               <div className="flex items-start gap-3 text-gray-400">
                 <MapPin className="h-5 w-5 text-brand-500 shrink-0 mt-0.5" />
                 <span>
-                  123 Care Street, Suite 100
+                  44 Bearfoot Rd #200
                   <br />
-                  San Francisco, CA 94105
+                  Northborough, MA 01532
                 </span>
               </div>
             </div>

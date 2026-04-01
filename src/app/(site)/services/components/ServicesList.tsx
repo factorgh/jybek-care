@@ -20,7 +20,10 @@ import {
   Sparkles,
   CheckCircle,
   ArrowRight,
+  Play,
 } from 'lucide-react';
+import { VideoModal } from '@/components/marketing/VideoModal';
+import { useState } from 'react';
 
 // Service categories with detailed information
 const serviceCategories = [
@@ -35,7 +38,7 @@ const serviceCategories = [
         description: 'Meaningful companionship and social engagement to combat isolation and enhance quality of life.',
         features: ['Conversation & emotional support', 'Hobby participation', 'Social outings', 'Light housekeeping'],
         color: 'rose',
-        image: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=800&h=500&fit=crop',
+        image: '/aZii/male-nurse-assisting-elderly-woman-playing-board-g-2026-03-25-04-45-01-utc.jpg',
       },
       {
         id: 'personal-care',
@@ -44,7 +47,7 @@ const serviceCategories = [
         description: 'Compassionate assistance with daily activities while maintaining independence and dignity.',
         features: ['Bathing assistance', 'Dressing & grooming', 'Meal preparation', 'Medication reminders'],
         color: 'brand',
-        image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=500&fit=crop',
+        image: '/aZii/caregiver-brush-hair-of-senior-woman-in-the-living-2026-01-09-09-16-52-utc.jpg',
       },
       {
         id: 'special-advance-care',
@@ -53,7 +56,7 @@ const serviceCategories = [
         description: 'Advanced medical care for complex health needs requiring specialized attention and expertise.',
         features: ['Medical monitoring', 'Skilled nursing', 'Wound care', 'Post-surgical support'],
         color: 'emerald',
-        image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=800&h=500&fit=crop',
+        image: '/aZii/doctor-or-nurse-caregiver-with-senior-patient-at-h-2024-10-11-02-38-25-utc.jpg',
       },
     ],
   },
@@ -68,7 +71,7 @@ const serviceCategories = [
         description: 'Flexible care by the hour for when you need occasional support or a helping hand.',
         features: ['Flexible scheduling', 'No minimum hours', 'Same-day availability', 'Consistent caregivers'],
         color: 'amber',
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-talking-to-senior-woman-during-home-visit-2026-03-24-10-23-09-utc.jpg',
       },
       {
         id: '24-hour-care',
@@ -77,7 +80,7 @@ const serviceCategories = [
         description: 'Round-the-clock care with rotating caregivers ensuring continuous support day and night.',
         features: ['Day & night coverage', 'Rotating staff', 'Continuous monitoring', 'Emergency response'],
         color: 'purple',
-        image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=500&fit=crop',
+        image: '/aZii/doctor-or-nurse-caregiver-with-senior-patient-at-h-2024-10-11-02-38-25-utc.jpg',
       },
       {
         id: 'live-in-care',
@@ -86,7 +89,7 @@ const serviceCategories = [
         description: 'A dedicated caregiver lives in your home providing consistent, personalized care.',
         features: ['One consistent caregiver', 'Cost-effective option', 'Deep relationship building', 'Comprehensive care'],
         color: 'teal',
-        image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&h=500&fit=crop',
+        image: '/aZii/home-caregiving-2026-03-20-06-12-27-utc.jpg',
       },
     ],
   },
@@ -101,7 +104,7 @@ const serviceCategories = [
         description: 'Compassionate end-of-life care support for patients and their families during difficult times.',
         features: ['Pain management support', 'Emotional support', 'Family respite', 'Dignity in final days'],
         color: 'rose',
-        image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-or-caregiver-and-elderly-woman-support-heal-2026-03-17-21-12-47-utc.jpg',
       },
       {
         id: 'palliative-care',
@@ -110,7 +113,7 @@ const serviceCategories = [
         description: 'Specialized care focused on comfort and quality of life for those with serious illnesses.',
         features: ['Symptom management', 'Comfort measures', 'Care coordination', 'Family support'],
         color: 'emerald',
-        image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=500&fit=crop',
+        image: '/aZii/the-hospital-doctor-explains-the-results-of-the-an-2026-01-07-00-35-52-utc.jpg',
       },
       {
         id: 'fall-prevention',
@@ -119,7 +122,7 @@ const serviceCategories = [
         description: 'Proactive care and home safety measures to prevent falls and maintain mobility.',
         features: ['Home safety assessment', 'Mobility assistance', 'Exercise programs', 'Environmental modifications'],
         color: 'brand',
-        image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
       },
       {
         id: 'low-vision',
@@ -128,7 +131,7 @@ const serviceCategories = [
         description: 'Specialized assistance for those with visual impairments to maintain independence.',
         features: ['Navigation assistance', 'Reading support', 'Safety monitoring', 'Adaptive techniques'],
         color: 'purple',
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=500&fit=crop',
+        image: '/aZii/shes-got-plenty-of-photos-to-share-shot-of-a-resi-2026-01-09-10-52-20-utc.jpg',
       },
       {
         id: 'respite-care',
@@ -137,7 +140,7 @@ const serviceCategories = [
         description: 'Short-term relief for family caregivers so you can take the break you deserve.',
         features: ['Flexible scheduling', 'Day or overnight', 'Emergency coverage', 'Vacation coverage'],
         color: 'amber',
-        image: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-talking-to-senior-woman-during-home-visit-2026-03-24-10-23-09-utc.jpg',
       },
       {
         id: 'alzheimers-dementia',
@@ -146,7 +149,7 @@ const serviceCategories = [
         description: 'Specialized care for those with memory conditions, providing safety and cognitive support.',
         features: ['Cognitive activities', 'Wandering prevention', 'Routine maintenance', 'Behavioral support'],
         color: 'purple',
-        image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=500&fit=crop',
+        image: '/aZii/senior-woman-and-man-solving-puzzle-with-nurse-ass-2026-03-26-23-43-06-utc.jpg',
       },
       {
         id: 'chronic-conditions',
@@ -155,7 +158,7 @@ const serviceCategories = [
         description: 'Ongoing support for managing chronic health conditions and maintaining quality of life.',
         features: ['Condition monitoring', 'Medication management', 'Lifestyle support', 'Doctor coordination'],
         color: 'emerald',
-        image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-checking-blood-pressure-of-senior-woman-in-w-2026-03-05-11-48-58-utc.jpg',
       },
     ],
   },
@@ -170,7 +173,7 @@ const serviceCategories = [
         description: 'Safe and reliable transportation to medical appointments, errands, and social activities.',
         features: ['Medical appointments', 'Grocery shopping', 'Social events', 'Wheelchair accessible'],
         color: 'brand',
-        image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=500&fit=crop',
+        image: '/aZii/active-people-lifestyle-2026-01-08-08-13-58-utc.jpg',
       },
       {
         id: 'transitional-care',
@@ -179,7 +182,7 @@ const serviceCategories = [
         description: 'Support during transitions from hospital to home or between care settings.',
         features: ['Discharge planning', 'Home preparation', 'Follow-up care', 'Recovery support'],
         color: 'teal',
-        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
       },
       {
         id: 'couples-care',
@@ -188,7 +191,7 @@ const serviceCategories = [
         description: 'Coordinated care for couples who want to remain together while receiving support.',
         features: ['Coordinated schedules', 'Shared activities', 'Individual needs met', 'Cost savings'],
         color: 'rose',
-        image: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=800&h=500&fit=crop',
+        image: '/aZii/senior-woman-and-man-solving-puzzle-with-nurse-ass-2026-03-26-23-43-06-utc.jpg',
       },
       {
         id: 'elderly-support',
@@ -197,7 +200,7 @@ const serviceCategories = [
         description: 'Comprehensive care designed specifically for the unique needs of seniors.',
         features: ['Age-appropriate care', 'Safety focus', 'Social engagement', 'Health monitoring'],
         color: 'brand',
-        image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=500&fit=crop',
+        image: '/aZii/happy-portrait-of-mom-and-grandmother-in-home-wit-2026-03-25-06-33-41-utc.jpg',
       },
       {
         id: 'adults-under-65',
@@ -206,7 +209,7 @@ const serviceCategories = [
         description: 'Care services for younger adults with disabilities or health conditions.',
         features: ['Independence focus', 'Life skills support', 'Community integration', 'Goal-oriented care'],
         color: 'purple',
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=500&fit=crop',
+        image: '/aZii/young-caregiver-assists-her-elderly-woman-patient-2026-01-06-10-09-39-utc.jpg',
       },
       {
         id: 'veterans-care',
@@ -215,7 +218,7 @@ const serviceCategories = [
         description: 'Specialized care honoring those who served, with understanding of veteran-specific needs.',
         features: ['VA benefits assistance', 'PTSD-aware care', 'Service-connected support', 'Peer connections'],
         color: 'emerald',
-        image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=500&fit=crop',
+        image: '/aZii/doctor-or-nurse-caregiver-with-senior-patient-at-h-2024-10-11-02-38-25-utc.jpg',
       },
       {
         id: 'facility-support',
@@ -224,7 +227,7 @@ const serviceCategories = [
         description: 'Additional care support for those in assisted living or nursing facilities.',
         features: ['Extra attention', 'Family advocacy', 'Quality monitoring', 'Personalized care'],
         color: 'teal',
-        image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&h=500&fit=crop',
+        image: '/aZii/housemaid-helping-to-clean-the-room-2026-03-18-15-40-03-utc.jpg',
       },
     ],
   },
@@ -239,7 +242,7 @@ const serviceCategories = [
         description: 'Specialized program for post-hospitalization recovery and rehabilitation support.',
         features: ['Recovery planning', 'Therapy support', 'Progress monitoring', 'Family education'],
         color: 'emerald',
-        image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=800&h=500&fit=crop',
+        image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
       },
       {
         id: 'stability-pathways',
@@ -248,7 +251,7 @@ const serviceCategories = [
         description: 'Long-term care planning and support for maintaining stability and independence.',
         features: ['Care planning', 'Goal setting', 'Regular assessments', 'Adaptive care'],
         color: 'brand',
-        image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=500&fit=crop',
+        image: '/aZii/portrait-of-female-caretaker-hugging-happy-elderly-2026-03-17-09-00-33-utc.jpg',
       },
       {
         id: 'thrivelife',
@@ -257,7 +260,7 @@ const serviceCategories = [
         description: 'Holistic wellness program focusing on physical, mental, and social well-being.',
         features: ['Wellness activities', 'Social programs', 'Mental health support', 'Nutrition guidance'],
         color: 'amber',
-        image: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=800&h=500&fit=crop',
+        image: '/aZii/active-people-lifestyle-2026-03-20-04-10-43-utc.jpg',
       },
     ],
   },
@@ -276,6 +279,15 @@ const iconColors = {
  * Comprehensive services list organized by categories
  */
 export function ServicesList() {
+  const [videoModal, setVideoModal] = useState<{ isOpen: boolean; videoId: string }>({
+    isOpen: false,
+    videoId: '',
+  });
+
+  const openVideo = (videoId: string) => {
+    setVideoModal({ isOpen: true, videoId });
+  };
+
   return (
     <section className="py-16 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -342,11 +354,33 @@ export function ServicesList() {
                         ))}
                       </ul>
 
-                      {/* CTA */}
-                      <Link href="/find-care" className="inline-flex items-center text-brand-600 font-medium text-sm group-hover:gap-2 transition-all">
-                        Learn more
-                        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                      </Link>
+                      {/* CTA & Video */}
+                      <div className="flex items-center justify-between mt-auto">
+                        <Link href="/find-care" className="inline-flex items-center text-brand-600 font-medium text-sm group-hover:gap-2 transition-all">
+                          Learn more
+                          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        
+                        {(service.id === 'alzheimers-dementia' || service.id === 'companion-care' || service.id === 'fall-prevention') && (
+                          <button 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              let videoId = '';
+                              if (service.id === 'alzheimers-dementia') videoId = 'V147c37N4R4';
+                              else if (service.id === 'companion-care') videoId = 'FLqi0-4FHuA';
+                              else if (service.id === 'fall-prevention') videoId = 'GLmTVUQj5cw';
+                              else if (service.id === 'palliative-care') videoId = 'tdla2nS9cZY';
+                              else if (service.id === 'low-vision') videoId = 'oH8joNnGBug';
+                              
+                              if (videoId) openVideo(videoId);
+                            }}
+                            className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900/30 text-brand-600 hover:bg-brand-600 hover:text-white transition-all shadow-sm"
+                            title="Watch Video"
+                          >
+                            <Play className="w-4 h-4 fill-current" />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </Card>
                 </motion.div>
@@ -382,6 +416,12 @@ export function ServicesList() {
           </div>
         </motion.div>
       </div>
+
+      <VideoModal 
+        isOpen={videoModal.isOpen} 
+        onClose={() => setVideoModal({ ...videoModal, isOpen: false })} 
+        videoId={videoModal.videoId} 
+      />
     </section>
   );
 }

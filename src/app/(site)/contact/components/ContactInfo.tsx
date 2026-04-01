@@ -35,19 +35,9 @@ const contactMethods = [
 // Office locations
 const offices = [
   {
-    city: 'San Francisco',
-    address: '123 Care Street, Suite 100',
-    state: 'CA 94105',
-  },
-  {
-    city: 'New York',
-    address: '456 Health Avenue, Floor 12',
-    state: 'NY 10001',
-  },
-  {
-    city: 'Chicago',
-    address: '789 Wellness Blvd, Suite 200',
-    state: 'IL 60601',
+    city: 'Northborough',
+    address: '44 Bearfoot Rd #200',
+    state: 'MA 01532',
   },
 ];
 

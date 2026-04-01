@@ -396,9 +396,9 @@ export function Hero() {
               <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg rounded-2xl shadow-xl p-3 flex items-center gap-3 border border-white/30">
                 <div className="flex -space-x-2">
                   {[
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face',
-                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face',
-                    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face',
+                    '/aZii/happy-portrait-of-mom-and-grandmother-in-home-wit-2026-03-25-06-33-41-utc.jpg',
+                    '/aZii/portrait-of-female-caretaker-hugging-happy-elderly-2026-03-17-09-00-33-utc.jpg',
+                    '/aZii/nurse-or-caregiver-and-elderly-woman-support-heal-2026-03-17-21-12-47-utc.jpg',
                   ].map((src, i) => (
                     <div key={i} className="w-9 h-9 rounded-full overflow-hidden border-2 border-white">
                       <Image src={src} alt="" width={36} height={36} className="object-cover" />

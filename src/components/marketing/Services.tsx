@@ -5,77 +5,71 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/components/ui';
 import {
-  Home,
   Heart,
   Brain,
   Users,
   Clock,
-  Stethoscope,
   ArrowRight,
   Sparkles,
+  Shield,
+  Building,
 } from 'lucide-react';
 
 // Service offerings with images
 const services = [
   {
-    icon: Home,
-    title: 'In-Home Care',
-    description:
-      'Personal care assistance in the comfort of home. Help with daily activities, medication reminders, and companionship.',
-    features: ['Personal Care', 'Meal Preparation', 'Light Housekeeping', 'Transportation'],
-    href: '/services/in-home-care',
+    icon: Users,
+    title: 'Personal Care',
+    description: 'Compassionate assistance with daily activities while maintaining independence and dignity.',
+    features: ['Bathing & grooming', 'Meal preparation', 'Medication reminders'],
+    href: '/services/personal-care',
     color: 'brand',
-    image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&h=300&fit=crop',
+    image: '/aZii/caregiver-brush-hair-of-senior-woman-in-the-living-2026-01-09-09-16-52-utc.jpg',
   },
   {
     icon: Heart,
     title: 'Companion Care',
-    description:
-      'Emotional support and social engagement to reduce isolation and improve quality of life.',
-    features: ['Conversation', 'Hobby Activities', 'Errands & Shopping', 'Social Outings'],
+    description: 'Meaningful companionship and social engagement to combat isolation and enhance quality of life.',
+    features: ['Conversation support', 'Hobby activities', 'Light housekeeping'],
     href: '/services/companion-care',
-    color: 'teal',
-    image: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=400&h=300&fit=crop',
+    color: 'rose',
+    image: '/aZii/male-nurse-assisting-elderly-woman-playing-board-g-2026-03-25-04-45-01-utc.jpg',
   },
   {
     icon: Brain,
-    title: 'Memory Care',
-    description:
-      'Specialized care for those living with Alzheimer\'s, dementia, and other cognitive conditions.',
-    features: ['Cognitive Exercises', 'Safety Supervision', 'Routine Management', 'Family Support'],
-    href: '/services/memory-care',
+    title: "Alzheimer's & Dementia Care",
+    description: 'Specialized care for those with memory conditions, providing safety and cognitive support.',
+    features: ['Cognitive activities', 'Wandering prevention', 'Routine maintenance'],
+    href: '/services/alzheimers-dementia',
     color: 'purple',
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop',
+    image: '/aZii/senior-woman-and-man-solving-puzzle-with-nurse-ass-2026-03-26-23-43-06-utc.jpg',
   },
   {
-    icon: Stethoscope,
-    title: 'Skilled Nursing',
-    description:
-      'Medical care provided by licensed nurses for complex health conditions and post-surgery recovery.',
-    features: ['Wound Care', 'IV Therapy', 'Medication Management', 'Health Monitoring'],
-    href: '/services/skilled-nursing',
-    color: 'emerald',
-    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&h=300&fit=crop',
+    icon: Shield,
+    title: '24-Hour Care',
+    description: 'Round-the-clock care with rotating caregivers ensuring continuous support day and night.',
+    features: ['Continuous monitoring', 'Day & night coverage', 'Emergency response'],
+    href: '/services/24-hour-care',
+    color: 'purple',
+    image: '/aZii/doctor-or-nurse-caregiver-with-senior-patient-at-h-2024-10-11-02-38-25-utc.jpg',
   },
   {
     icon: Clock,
     title: 'Respite Care',
-    description:
-      'Short-term relief for family caregivers. Take a break while we care for your loved one.',
-    features: ['Flexible Scheduling', 'Day or Overnight', 'Emergency Coverage', 'Regular Breaks'],
+    description: 'Short-term relief for family caregivers so you can take the break you deserve.',
+    features: ['Flexible scheduling', 'Day or overnight', 'Emergency coverage'],
     href: '/services/respite-care',
     color: 'amber',
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=300&fit=crop',
+    image: '/aZii/nurse-talking-to-senior-woman-during-home-visit-2026-03-24-10-23-09-utc.jpg',
   },
   {
-    icon: Users,
-    title: 'Assisted Living',
-    description:
-      'Help finding the right residential care community with 24/7 support and amenities.',
-    features: ['Community Tours', 'Care Matching', 'Move-In Support', 'Ongoing Advocacy'],
-    href: '/services/assisted-living',
-    color: 'rose',
-    image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop',
+    icon: Building,
+    title: 'Transitional Care',
+    description: 'Support during transitions from hospital to home or between care settings.',
+    features: ['Discharge planning', 'Recovery support', 'Home preparation'],
+    href: '/services/transitional-care',
+    color: 'teal',
+    image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
   },
 ];
 
@@ -165,12 +159,8 @@ export function Services() {
         </motion.div>
 
         {/* Services grid with staggered animations */}
-        <motion.div 
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
+        <div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         >
           {services.map((service, index) => (
             <motion.div
@@ -287,7 +277,7 @@ export function Services() {
               </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTA with enhanced animation */}
         <motion.div

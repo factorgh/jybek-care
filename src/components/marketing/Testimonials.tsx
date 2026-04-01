@@ -15,7 +15,7 @@ const testimonials = [
       "Finding care for my mother was overwhelming until I discovered Jybek. Within 48 hours, we had a wonderful caregiver who my mom absolutely adores. The peace of mind is priceless.",
     rating: 5,
     careType: 'In-Home Care',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face',
+    image: '/aZii/portrait-of-female-caretaker-hugging-happy-elderly-2026-03-17-09-00-33-utc.jpg',
   },
   {
     id: '2',
@@ -25,7 +25,7 @@ const testimonials = [
       "The care assessment tool helped us understand exactly what level of care my father needed. The team was patient, thorough, and matched us with the perfect caregiver.",
     rating: 5,
     careType: 'Memory Care',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
+    image: '/aZii/friendly-mature-general-practitioner-communicating-2026-01-07-01-35-36-utc.jpg',
   },
   {
     id: '3',
@@ -35,7 +35,7 @@ const testimonials = [
       "After my surgery, I needed temporary help at home. Jybek's respite care service was a lifesaver. Professional, compassionate, and exactly what I needed to recover.",
     rating: 5,
     careType: 'Respite Care',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
+    image: '/aZii/nurse-checking-blood-pressure-of-senior-woman-in-w-2026-03-05-11-48-58-utc.jpg',
   },
   {
     id: '4',
@@ -45,7 +45,7 @@ const testimonials = [
       "We tried several home care agencies before finding Jybek. The difference in quality and communication is night and day. Finally, a company that truly cares.",
     rating: 5,
     careType: 'Companion Care',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+    image: '/aZii/a-young-caucasian-physical-therapist-and-an-elderl-2026-03-24-05-06-21-utc.jpg',
   },
 ];
 

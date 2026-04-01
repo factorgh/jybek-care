@@ -6,32 +6,32 @@ import Image from 'next/image';
 // Gallery images showcasing care moments
 const galleryImages = [
   {
-    src: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=600&h=400&fit=crop',
+    src: '/aZii/happy-portrait-of-mom-and-grandmother-in-home-wit-2026-03-25-06-33-41-utc.jpg',
     alt: 'Caregiver helping elderly woman with mobility',
     span: 'col-span-2 row-span-2',
   },
   {
-    src: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop',
+    src: '/aZii/the-hospital-doctor-explains-the-results-of-the-an-2026-01-07-00-35-52-utc.jpg',
     alt: 'Professional nurse with patient',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&h=300&fit=crop',
+    src: '/aZii/senior-woman-relaxing-on-couch-with-caregiver-sha-2026-01-11-10-57-51-utc.jpg',
     alt: 'Senior enjoying quality time',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=400&h=300&fit=crop',
+    src: '/aZii/active-people-lifestyle-2026-03-20-04-10-43-utc.jpg',
     alt: 'Family moment with elderly parent',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=300&fit=crop',
+    src: '/aZii/young-caregiver-assists-her-elderly-woman-patient-2026-01-06-10-09-39-utc.jpg',
     alt: 'Caring professional caregiver',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&h=400&fit=crop',
+    src: '/aZii/active-people-lifestyle-2026-01-08-08-13-58-utc.jpg',
     alt: 'Happy senior couple',
     span: 'col-span-2 row-span-1',
   },
