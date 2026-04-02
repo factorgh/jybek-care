@@ -196,9 +196,13 @@ export function Footer() {
             <p className="text-sm text-gray-500">
               © {new Date().getFullYear()} Jybek Home Care. All rights reserved.
             </p>
-            <div className="flex items-center gap-6 mt-4 md:mt-0">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 mt-4 md:mt-0">
               <span className="text-sm text-gray-500">
                 Made with <Heart className="inline h-4 w-4 text-red-500" /> for families
+              </span>
+              <span className="text-sm text-gray-500 hidden md:block">|</span>
+              <span className="text-xl text-gray-600 font-medium tracking-wide flex items-center gap-2">
+                POWERED BY <span className="text-brand-500 font-bold">OAJ SOFTWARE CONSULT</span>
               </span>
             </div>
           </div>
