@@ -3,6 +3,8 @@ import { connectToDatabase } from '@/lib/db/mongodb';
 import { Job } from '@/lib/db/models';
 import { getSession } from '@/lib/auth/jwt';
 
+export const dynamic = 'force-dynamic';
+
 // GET all jobs
 export async function GET(request: NextRequest) {
   try {

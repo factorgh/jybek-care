@@ -166,7 +166,7 @@ export default function JybekHirePage() {
             >
               <div className="relative h-[400px] rounded-2xl overflow-hidden">
                 <Image
-                  src="/aZii/young-caregiver-assists-her-elderly-woman-patient-2026-01-06-10-09-39-utc.jpg"
+                  src="/azii/patient-assist.jpg"
                   alt="Jybek Caregivers"
                   fill
                   className="object-cover"

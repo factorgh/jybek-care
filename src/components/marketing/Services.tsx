@@ -24,7 +24,7 @@ const services = [
     features: ['Bathing & grooming', 'Meal preparation', 'Medication reminders'],
     href: '/services/personal-care',
     color: 'brand',
-    image: '/aZii/caregiver-brush-hair-of-senior-woman-in-the-living-2026-01-09-09-16-52-utc.jpg',
+    image: '/azii/hair-care.jpg',
   },
   {
     icon: Heart,
@@ -33,7 +33,7 @@ const services = [
     features: ['Conversation support', 'Hobby activities', 'Light housekeeping'],
     href: '/services/companion-care',
     color: 'rose',
-    image: '/aZii/male-nurse-assisting-elderly-woman-playing-board-g-2026-03-25-04-45-01-utc.jpg',
+    image: '/azii/board-game.jpg',
   },
   {
     icon: Brain,
@@ -42,7 +42,7 @@ const services = [
     features: ['Cognitive activities', 'Wandering prevention', 'Routine maintenance'],
     href: '/services/alzheimers-dementia',
     color: 'purple',
-    image: '/aZii/senior-woman-and-man-solving-puzzle-with-nurse-ass-2026-03-26-23-43-06-utc.jpg',
+    image: '/azii/puzzle.jpg',
   },
   {
     icon: Shield,
@@ -51,7 +51,7 @@ const services = [
     features: ['Continuous monitoring', 'Day & night coverage', 'Emergency response'],
     href: '/services/24-hour-care',
     color: 'purple',
-    image: '/aZii/doctor-or-nurse-caregiver-with-senior-patient-at-h-2024-10-11-02-38-25-utc.jpg',
+    image: '/azii/doctor-home.jpg',
   },
   {
     icon: Clock,
@@ -60,7 +60,7 @@ const services = [
     features: ['Flexible scheduling', 'Day or overnight', 'Emergency coverage'],
     href: '/services/respite-care',
     color: 'amber',
-    image: '/aZii/nurse-talking-to-senior-woman-during-home-visit-2026-03-24-10-23-09-utc.jpg',
+    image: '/azii/home-visit.jpg',
   },
   {
     icon: Building,
@@ -69,7 +69,7 @@ const services = [
     features: ['Discharge planning', 'Recovery support', 'Home preparation'],
     href: '/services/transitional-care',
     color: 'teal',
-    image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
+    image: '/azii/crutches.jpg',
   },
 ];
 

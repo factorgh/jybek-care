@@ -29,17 +29,10 @@ const values = [
   },
   {
     icon: Sparkles,
-    title: 'Excellence',
+    title: 'Faith & Purpose',
     description:
-      'We continuously improve our services, matching families with caregivers who exceed expectations.',
+      'Our service is rooted in love, dignity, and a commitment to positive impact, guided by faith-based principles.',
     color: 'amber',
-  },
-  {
-    icon: Clock,
-    title: 'Reliability',
-    description:
-      'Consistent, dependable care you can count on—24/7 support when you need it most.',
-    color: 'purple',
   },
   {
     icon: Award,

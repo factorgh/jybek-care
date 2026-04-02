@@ -19,14 +19,13 @@ export function AboutHero() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center"
         >
-          {/* Badge */}
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="inline-block bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
           >
-            Caring Since 2015
+            Purpose-Driven Home Care
           </motion.span>
 
           {/* Headline */}

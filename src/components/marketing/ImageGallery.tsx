@@ -6,32 +6,32 @@ import Image from 'next/image';
 // Gallery images showcasing care moments
 const galleryImages = [
   {
-    src: '/aZii/happy-portrait-of-mom-and-grandmother-in-home-wit-2026-03-25-06-33-41-utc.jpg',
+    src: '/azii/family-1.jpg',
     alt: 'Caregiver helping elderly woman with mobility',
     span: 'col-span-2 row-span-2',
   },
   {
-    src: '/aZii/the-hospital-doctor-explains-the-results-of-the-an-2026-01-07-00-35-52-utc.jpg',
+    src: '/azii/doctor-explain.jpg',
     alt: 'Professional nurse with patient',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/aZii/senior-woman-relaxing-on-couch-with-caregiver-sha-2026-01-11-10-57-51-utc.jpg',
+    src: '/azii/couch-relax.jpg',
     alt: 'Senior enjoying quality time',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/aZii/active-people-lifestyle-2026-03-20-04-10-43-utc.jpg',
+    src: '/azii/lifestyle-2.jpg',
     alt: 'Family moment with elderly parent',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/aZii/young-caregiver-assists-her-elderly-woman-patient-2026-01-06-10-09-39-utc.jpg',
+    src: '/azii/patient-assist.jpg',
     alt: 'Caring professional caregiver',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/aZii/active-people-lifestyle-2026-01-08-08-13-58-utc.jpg',
+    src: '/azii/lifestyle-1.jpg',
     alt: 'Happy senior couple',
     span: 'col-span-2 row-span-1',
   },

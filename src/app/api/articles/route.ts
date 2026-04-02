@@ -3,6 +3,8 @@ import { connectToDatabase } from '@/lib/db/mongodb';
 import { Article } from '@/lib/db/models';
 import { getSession } from '@/lib/auth/jwt';
 
+export const dynamic = 'force-dynamic';
+
 // GET all articles (public, but only published for non-admin)
 export async function GET(request: NextRequest) {
   try {

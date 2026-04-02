@@ -20,26 +20,23 @@ export function Mission() {
             transition={{ duration: 0.5 }}
           >
             <span className="inline-block text-brand-600 font-semibold text-sm uppercase tracking-wider mb-4">
-              Our Story
+              About the Founder
             </span>
             <h2 className="text-gray-900 dark:text-white mb-6">
-              Built on a Foundation of Care
+              Peter Martin Akwei, MSc
             </h2>
             <div className="space-y-4 text-gray-600 dark:text-gray-400">
               <p>
-                Jybek Home Care was founded in 2015 by a team of healthcare professionals 
-                who witnessed firsthand the challenges families face when seeking quality 
-                care for their loved ones.
+                Peter Martin Akwei is an accomplished professional with a Master&apos;s degree in Risk Management and extensive experience in enterprise and credit risk, developed during his time in the United Kingdom. His background has equipped him with a strong foundation in operational structure, compliance, and strategic decision-making.
               </p>
               <p>
-                After years of working in hospitals and care facilities, our founders 
-                recognized that the most meaningful care happens at home—where people 
-                feel safe, comfortable, and surrounded by what they love.
+                Peter&apos;s transition into the home care industry was driven by personal experience. While caring for his mother, he encountered firsthand the emotional and practical challenges families face when seeking quality care. This experience sparked a deep commitment to improving how care is delivered.
               </p>
               <p>
-                Today, we&apos;ve helped over 50,000 families find trusted caregivers who 
-                provide not just assistance, but genuine companionship and dignity to 
-                those they serve.
+                To fully understand the industry, Peter worked hands-on in various in-home care environments, taking on shifts at different levels of service. This ground-level experience provided him with valuable insight into caregiver responsibilities, client expectations, and system gaps within the industry.
+              </p>
+              <p>
+                Today, Peter leads Jybek HomeCare Group with a clear vision: to transform home care through risk-informed systems, technology integration, and compassionate service delivery. His approach focuses on building a reliable and scalable model that supports both caregivers and clients.
               </p>
             </div>
           </motion.div>

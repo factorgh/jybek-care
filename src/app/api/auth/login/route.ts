@@ -3,6 +3,8 @@ import { connectToDatabase } from '@/lib/db/mongodb';
 import { Admin } from '@/lib/db/models';
 import { createToken, setSessionCookie } from '@/lib/auth/jwt';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();

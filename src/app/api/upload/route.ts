@@ -4,6 +4,8 @@ import { existsSync } from 'fs';
 import path from 'path';
 import { getSession } from '@/lib/auth/jwt';
 
+export const dynamic = 'force-dynamic';
+
 // Allowed file types
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
