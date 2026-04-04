@@ -23,7 +23,7 @@ export function FounderVision() {
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl z-10 border-8 border-white dark:border-gray-800">
               <Image
                 src="/teams/ceo.png"
-                alt="Peter Martin Akwei"
+                alt="Peter Martins Akwei"
                 fill
                 className="object-cover"
               />
@@ -51,12 +51,12 @@ export function FounderVision() {
 
             <div className="space-y-6 text-xl text-gray-700 dark:text-gray-300 italic font-medium leading-relaxed mb-8">
               <p>
-                &ldquo;Peter Martin Akwei is the visionary behind Jybek HomeCare Group, combining expertise in risk management and real-world caregiving experience to transform home care delivery. Inspired by personal caregiving for his mother, he is committed to building a system that empowers caregivers and delivers compassionate, reliable support to seniors. Through innovation and purpose-driven leadership, Peter is redefining care with structure, dignity, and excellence.&rdquo;
+                &ldquo;Peter Martins Akwei is the visionary behind Jybek HomeCare Group, combining expertise in risk management and real-world caregiving experience to transform home care delivery. Inspired by personal caregiving for his mother, he is committed to building a system that empowers caregivers and delivers compassionate, reliable support to seniors. Through innovation and purpose-driven leadership, Peter is redefining care with structure, dignity, and excellence.&rdquo;
               </p>
             </div>
 
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">Peter Martin Akwei, MSc</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">Peter Martins Akwei, MSc</p>
               <p className="text-brand-600 font-semibold tracking-wide uppercase text-sm">Founder & Managing Director</p>
             </div>
           </motion.div>

@@ -6,4 +6,5 @@ export { HowItWorks } from './HowItWorks';
 export { CTA } from './CTA';
 export { ImageGallery } from './ImageGallery';
 export { FounderVision } from './FounderVision';
+export { CareConnect } from './CareConnect';
 

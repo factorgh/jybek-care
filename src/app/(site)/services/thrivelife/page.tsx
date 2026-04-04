@@ -8,7 +8,7 @@ const serviceData = {
   subtitle: 'Our flagship wellness and thriving program',
   description:
     'Jybek Thrivelife is our transformative program designed to help seniors not just survive, but truly thrive. Going beyond basic care, this program focuses on purpose, engagement, connection, and joy—helping older adults live their best lives with meaning and fulfillment.',
-  heroImage: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=800&h=600&fit=crop',
+  heroImage: '/azii/lifestyle-2.jpg',
   features: [
     {
       title: 'Purpose & Meaning',

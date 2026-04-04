@@ -8,7 +8,7 @@ const serviceData = {
   subtitle: 'Our flagship post-hospital recovery program',
   description:
     'Jybek Return & Recovery is our comprehensive flagship program designed to support safe, successful recovery after hospitalization or surgery. This structured program reduces readmission risk, accelerates healing, and helps patients return to independence faster through coordinated, evidence-based care.',
-  heroImage: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=600&fit=crop',
+  heroImage: '/azii/physio.jpg',
   features: [
     {
       title: '72-Hour Critical Support',

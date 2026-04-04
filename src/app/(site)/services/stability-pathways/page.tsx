@@ -8,7 +8,7 @@ const serviceData = {
   subtitle: 'Our flagship chronic disease management program',
   description:
     'Jybek Stability Pathways is our comprehensive program designed for individuals living with chronic conditions. This proactive approach focuses on maintaining stability, preventing crises, and improving quality of life through consistent monitoring, lifestyle support, and early intervention.',
-  heroImage: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=600&fit=crop',
+  heroImage: '/azii/patient-assist.jpg',
   features: [
     {
       title: 'Condition Monitoring',

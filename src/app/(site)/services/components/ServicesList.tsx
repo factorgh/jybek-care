@@ -140,7 +140,7 @@ const serviceCategories = [
         description: 'Short-term relief for family caregivers so you can take the break you deserve.',
         features: ['Flexible scheduling', 'Day or overnight', 'Emergency coverage', 'Vacation coverage'],
         color: 'amber',
-        image: '/aZii/nurse-talking-to-senior-woman-during-home-visit-2026-03-24-10-23-09-utc.jpg',
+        image: '/azii/home-visit.jpg',
       },
       {
         id: 'alzheimers-dementia',
@@ -149,7 +149,7 @@ const serviceCategories = [
         description: 'Specialized care for those with memory conditions, providing safety and cognitive support.',
         features: ['Cognitive activities', 'Wandering prevention', 'Routine maintenance', 'Behavioral support'],
         color: 'purple',
-        image: '/aZii/senior-woman-and-man-solving-puzzle-with-nurse-ass-2026-03-26-23-43-06-utc.jpg',
+        image: '/azii/puzzle.jpg',
       },
       {
         id: 'chronic-conditions',
@@ -182,7 +182,7 @@ const serviceCategories = [
         description: 'Support during transitions from hospital to home or between care settings.',
         features: ['Discharge planning', 'Home preparation', 'Follow-up care', 'Recovery support'],
         color: 'teal',
-        image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
+        image: '/azii/crutches.jpg',
       },
       {
         id: 'couples-care',
@@ -191,7 +191,7 @@ const serviceCategories = [
         description: 'Coordinated care for couples who want to remain together while receiving support.',
         features: ['Coordinated schedules', 'Shared activities', 'Individual needs met', 'Cost savings'],
         color: 'rose',
-        image: '/aZii/senior-woman-and-man-solving-puzzle-with-nurse-ass-2026-03-26-23-43-06-utc.jpg',
+        image: '/azii/puzzle.jpg',
       },
       {
         id: 'elderly-support',
@@ -218,7 +218,7 @@ const serviceCategories = [
         description: 'Specialized care honoring those who served, with understanding of veteran-specific needs.',
         features: ['VA benefits assistance', 'PTSD-aware care', 'Service-connected support', 'Peer connections'],
         color: 'emerald',
-        image: '/aZii/doctor-or-nurse-caregiver-with-senior-patient-at-h-2024-10-11-02-38-25-utc.jpg',
+        image: '/azii/doctor-home.jpg',
       },
       {
         id: 'facility-support',
@@ -242,7 +242,7 @@ const serviceCategories = [
         description: 'Specialized program for post-hospitalization recovery and rehabilitation support.',
         features: ['Recovery planning', 'Therapy support', 'Progress monitoring', 'Family education'],
         color: 'emerald',
-        image: '/aZii/nurse-helping-senior-woman-using-crutches-for-reha-2026-03-26-10-33-10-utc.jpg',
+        image: '/azii/physio.jpg',
       },
       {
         id: 'stability-pathways',

@@ -1,4 +1,4 @@
-import { Hero, Services, Stats, HowItWorks, Testimonials, CTA, ImageGallery, FounderVision } from '@/components/marketing';
+import { Hero, Services, Stats, HowItWorks, Testimonials, CTA, ImageGallery, FounderVision, CareConnect } from '@/components/marketing';
 
 /**
  * Home page - Main marketing landing page
@@ -9,6 +9,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Services />
+      <CareConnect />
       <ImageGallery />
       <Stats />
       <HowItWorks />
