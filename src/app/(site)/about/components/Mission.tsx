@@ -23,11 +23,11 @@ export function Mission() {
               About the Founder
             </span>
             <h2 className="text-gray-900 dark:text-white mb-6">
-              Peter Martin Akwei, MSc
+              Peter Martins Akwei, MSc
             </h2>
             <div className="space-y-4 text-gray-600 dark:text-gray-400">
               <p>
-                Peter Martin Akwei is an accomplished professional with a Master&apos;s degree in Risk Management and extensive experience in enterprise and credit risk, developed during his time in the United Kingdom. His background has equipped him with a strong foundation in operational structure, compliance, and strategic decision-making.
+                Peter Martins Akwei is an accomplished professional with a Master&apos;s degree in Risk Management and extensive experience in enterprise and credit risk, developed during his time in the United Kingdom. His background has equipped him with a strong foundation in operational structure, compliance, and strategic decision-making.
               </p>
               <p>
                 Peter&apos;s transition into the home care industry was driven by personal experience. While caring for his mother, he encountered firsthand the emotional and practical challenges families face when seeking quality care. This experience sparked a deep commitment to improving how care is delivered.

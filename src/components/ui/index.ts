@@ -5,4 +5,5 @@ export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, 
 export { Badge, type BadgeProps } from './Badge';
 export { Select, type SelectProps, type SelectOption } from './Select';
 export { Textarea, type TextareaProps } from './Textarea';
+export { Modal, type ModalProps } from './Modal';
 

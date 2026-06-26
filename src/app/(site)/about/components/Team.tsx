@@ -8,9 +8,9 @@ import Image from 'next/image';
 // Team members
 const team = [
   {
-    name: 'Peter Martin Akwei, MSc',
+    name: 'Peter Martins Akwei, MSc',
     role: 'Founder & Managing Director',
-    bio: 'Peter Martin Akwei is a purpose-driven leader whose journey into home care was guided by both experience and faith. Grounded in Christian values and a commitment to impact, he founded Jybek HomeCare Group to provide care that goes beyond tasks—care that uplifts lives. By integrating risk management, technology, and faith-based principles, he is building a system that creates meaningful opportunities for caregivers while ensuring seniors receive the quality care they deserve.',
+    bio: 'Peter Martins Akwei is a purpose-driven leader whose journey into home care was guided by both experience and faith. Grounded in Christian values and a commitment to impact, he founded Jybek HomeCare Group to provide care that goes beyond tasks—care that uplifts lives. By integrating risk management, technology, and faith-based principles, he is building a system that creates meaningful opportunities for caregivers while ensuring seniors receive the quality care they deserve.',
     image: '/teams/ceo.png',
     linkedin: '#',
     twitter: '#',

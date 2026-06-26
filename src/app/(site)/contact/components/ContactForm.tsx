@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button, Input, Textarea, Select, Card } from '@/components/ui';
-import { Send, CheckCircle } from 'lucide-react';
+import { Button, Input, Textarea, Select, Card, Modal } from '@/components/ui';
+import { Send, CheckCircle, Shield } from 'lucide-react';
+import { PrivacyPolicyContent } from '@/components/marketing/PrivacyPolicyContent';
 
 const subjectOptions = [
   { value: 'care-inquiry', label: 'Care Inquiry' },
@@ -20,6 +21,7 @@ const subjectOptions = [
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,11 +97,24 @@ export function ContactForm() {
           required
         />
 
-        <Input
-          label="Phone Number"
-          type="tel"
-          placeholder="(555) 123-4567"
-        />
+        <div className="space-y-2">
+          <Input
+            label="Phone Number"
+            type="tel"
+            placeholder="(555) 123-4567"
+          />
+          <p className="text-[11px] leading-relaxed text-gray-500 dark:text-gray-400">
+            By providing your phone number, you consent to receive SMS communications from Jybek HomeCare Services related to care scheduling, caregivers, and updates. Message and data rates may apply. Reply STOP to opt out at any time. View our{' '}
+            <button
+              type="button"
+              onClick={() => setIsPrivacyOpen(true)}
+              className="text-brand-600 dark:text-brand-400 hover:underline font-semibold align-baseline"
+            >
+              Privacy Policy
+            </button>
+            .
+          </p>
+        </div>
 
         <Select
           label="Subject"
@@ -125,6 +140,21 @@ export function ContactForm() {
           Send Message
         </Button>
       </form>
+
+      {/* Privacy Policy Modal */}
+      <Modal
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
+        size="xl"
+        title={
+          <span className="flex items-center gap-2">
+            <Shield className="h-5 w-5 text-brand-600 dark:text-brand-400" />
+            Privacy Policy | Jybek Home Care
+          </span>
+        }
+      >
+        <PrivacyPolicyContent />
+      </Modal>
     </motion.div>
   );
 }

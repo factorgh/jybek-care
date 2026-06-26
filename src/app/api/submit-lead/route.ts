@@ -57,8 +57,25 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("External API error:", response.status, errorText);
+      
+      let errorMessage = "Failed to submit lead to external service";
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson && typeof errorJson === "object") {
+          const firstErrorKey = Object.keys(errorJson)[0];
+          const firstErrorVal = errorJson[firstErrorKey];
+          if (Array.isArray(firstErrorVal) && firstErrorVal.length > 0) {
+            errorMessage = firstErrorVal[0];
+          } else if (typeof firstErrorVal === "string") {
+            errorMessage = firstErrorVal;
+          }
+        }
+      } catch {
+        // Fallback to default message
+      }
+
       return NextResponse.json(
-        { error: "Failed to submit lead to external service" },
+        { error: errorMessage },
         { status: response.status }
       );
     }
