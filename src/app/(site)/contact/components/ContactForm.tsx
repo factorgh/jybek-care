@@ -2,21 +2,12 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button, Input, Textarea, Select, Card, Modal } from '@/components/ui';
-import { Send, CheckCircle, Shield } from 'lucide-react';
+import { Button, Input, Textarea, Card, Modal } from '@/components/ui';
+import { CheckCircle, Shield } from 'lucide-react';
 import { PrivacyPolicyContent } from '@/components/marketing/PrivacyPolicyContent';
 
-const subjectOptions = [
-  { value: 'care-inquiry', label: 'Care Inquiry' },
-  { value: 'pricing', label: 'Pricing Information' },
-  { value: 'caregiver-application', label: 'Caregiver Application' },
-  { value: 'partnership', label: 'Partnership Opportunities' },
-  { value: 'feedback', label: 'Feedback' },
-  { value: 'other', label: 'Other' },
-];
-
 /**
- * Contact form component with validation
+ * Contact form component with A2P compliant consent checks, matching the desktop lead form mockup
  */
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -70,26 +61,32 @@ export function ContactForm() {
       transition={{ duration: 0.5 }}
     >
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        Send Us a Message
+        Contact Jybek HomeCare
       </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-8">
-        Fill out the form below and we&apos;ll get back to you as soon as possible.
+        Homepage lead/contact form
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid sm:grid-cols-2 gap-6">
+        {/* Name Fields (Row of 3 inputs: Last, First, Middle) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Input
-            label="First Name"
-            placeholder="John"
+            label="Last Name"
+            placeholder="e.g. Smith"
             required
           />
           <Input
-            label="Last Name"
-            placeholder="Smith"
+            label="First Name"
+            placeholder="e.g. John"
             required
+          />
+          <Input
+            label="Middle Name"
+            placeholder="e.g. Robert"
           />
         </div>
 
+        {/* Email Address */}
         <Input
           label="Email Address"
           type="email"
@@ -97,32 +94,15 @@ export function ContactForm() {
           required
         />
 
-        <div className="space-y-2">
-          <Input
-            label="Phone Number"
-            type="tel"
-            placeholder="(555) 123-4567"
-          />
-          <p className="text-[11px] leading-relaxed text-gray-500 dark:text-gray-400">
-            By providing your phone number, you consent to receive SMS communications from Jybek HomeCare Services related to care scheduling, caregivers, and updates. Message and data rates may apply. Reply STOP to opt out at any time. View our{' '}
-            <button
-              type="button"
-              onClick={() => setIsPrivacyOpen(true)}
-              className="text-brand-600 dark:text-brand-400 hover:underline font-semibold align-baseline"
-            >
-              Privacy Policy
-            </button>
-            .
-          </p>
-        </div>
-
-        <Select
-          label="Subject"
-          options={subjectOptions}
-          placeholder="Select a subject"
+        {/* Phone Number */}
+        <Input
+          label="Phone Number"
+          type="tel"
+          placeholder="(555) 123-4567"
           required
         />
 
+        {/* Message */}
         <Textarea
           label="Message"
           placeholder="Tell us how we can help you..."
@@ -130,15 +110,82 @@ export function ContactForm() {
           required
         />
 
+        {/* A2P Consent Checkbox Panel */}
+        <div className="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30 space-y-4">
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="sms-form-consent"
+              required
+              className="mt-1 w-4.5 h-4.5 rounded border-gray-300 text-brand-600 focus:ring-brand-500 dark:bg-gray-800 dark:border-gray-700 cursor-pointer"
+            />
+            <label htmlFor="sms-form-consent" className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed cursor-pointer select-none">
+              By checking this box, you are agreeing to receive{' '}
+              <span className="font-bold bg-yellow-100 dark:bg-yellow-950/40 text-gray-900 dark:text-white px-1 py-0.5 rounded">
+                appointment, scheduling, and care-coordination
+              </span>{' '}
+              text messages from{' '}
+              <span className="font-bold bg-yellow-100 dark:bg-yellow-950/40 text-gray-900 dark:text-white px-1 py-0.5 rounded">
+                Jybek HomeCare
+              </span>
+              . Message frequency varies. Message and data rates may apply. See our{' '}
+              <button
+                type="button"
+                onClick={() => setIsPrivacyOpen(true)}
+                className="text-brand-600 dark:text-brand-400 font-semibold hover:underline"
+              >
+                Privacy Policy
+              </button>{' '}
+              and{' '}
+              <a href="#terms" className="text-brand-600 dark:text-brand-400 font-semibold hover:underline">
+                Terms &amp; Conditions
+              </a>
+              . Message HELP for assistance. Reply STOP to any message to opt out.
+            </label>
+          </div>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-2 text-2xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 pt-3 border-t border-gray-150 dark:border-gray-800/80">
+            <button type="button" onClick={() => setIsPrivacyOpen(true)} className="hover:underline">
+              Privacy Policy
+            </button>
+            <span className="text-gray-300 dark:text-gray-700 hidden sm:inline">•</span>
+            <a href="#terms" className="hover:underline">
+              Terms &amp; Conditions
+            </a>
+            <span className="text-gray-300 dark:text-gray-700 hidden sm:inline">•</span>
+            <a href="#sms-terms" className="hover:underline">
+              SMS Terms of Service
+            </a>
+          </div>
+        </div>
+
+        {/* Submit button */}
         <Button
           type="submit"
           size="lg"
           fullWidth
           isLoading={isLoading}
-          rightIcon={<Send className="h-5 w-5" />}
+          className="py-4 font-extrabold tracking-widest text-sm uppercase transition-all duration-200"
         >
-          Send Message
+          SUBMIT / SEND
         </Button>
+
+        {/* Bottom links footer */}
+        <div className="text-center text-3xs text-gray-450 dark:text-gray-500 pt-4 border-t border-gray-100 dark:border-gray-800/60 space-x-3.5">
+          <span>© Jybek HomeCare</span>
+          <span>|</span>
+          <button type="button" onClick={() => setIsPrivacyOpen(true)} className="hover:underline text-brand-600/80 dark:text-brand-550 font-medium">
+            Privacy Policy
+          </button>
+          <span>•</span>
+          <a href="#terms" className="hover:underline text-brand-600/80 dark:text-brand-550 font-medium">
+            Terms &amp; Conditions
+          </a>
+          <span>•</span>
+          <a href="#sms-terms" className="hover:underline text-brand-600/80 dark:text-brand-550 font-medium">
+            SMS Terms of Service
+          </a>
+        </div>
       </form>
 
       {/* Privacy Policy Modal */}
@@ -158,4 +205,3 @@ export function ContactForm() {
     </motion.div>
   );
 }
-

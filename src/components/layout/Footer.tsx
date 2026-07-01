@@ -51,6 +51,7 @@ const footerLinks = {
       { label: 'About Us', href: '/about' },
       { label: 'Our Team', href: '/about#team' },
       { label: 'Contact Jybek', href: '/contact' },
+      { label: 'Privacy Policy', href: '/privacy' },
     ],
   },
 };

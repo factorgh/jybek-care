@@ -14,6 +14,7 @@ import { PrivacyPolicyContent } from './PrivacyPolicyContent';
 export function SMSDisclosureBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     try {
@@ -35,6 +36,16 @@ export function SMSDisclosureBanner() {
       console.warn('Unable to save SMS banner dismissal to localStorage:', e);
     }
     setIsVisible(false);
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setIsChecked(checked);
+    if (checked) {
+      // Slower animation transition to allow check indicator visual feedback
+      setTimeout(() => {
+        handleClose();
+      }, 400);
+    }
   };
 
   return (
@@ -75,7 +86,7 @@ export function SMSDisclosureBanner() {
                   Message and data rates may apply. Reply <span className="font-mono bg-white/10 px-1.5 py-0.5 rounded font-bold text-white text-xs">STOP</span> to opt out of SMS messages at any time. Reply <span className="font-mono bg-white/10 px-1.5 py-0.5 rounded font-bold text-white text-xs">HELP</span> for assistance.{' '}
                   <span className="underline decoration-emerald-400 decoration-2 font-medium">No mobile opt-in data will be shared with third parties for marketing or any other purpose.</span>
                 </p>
-
+                
                 <div className="flex flex-wrap gap-4 pt-1">
                   <button
                     type="button"
@@ -87,15 +98,19 @@ export function SMSDisclosureBanner() {
                   </button>
                 </div>
               </div>
-
+              
               <div className="flex flex-wrap items-center gap-4 self-stretch lg:self-center justify-between sm:justify-start lg:justify-end border-t border-white/10 lg:border-none pt-4 lg:pt-0 shrink-0">
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 backdrop-blur-sm border border-white/20 hover:border-white/30 text-white text-sm font-bold rounded-xl transition-all duration-200"
-                >
-                  Got it, Dismiss
-                </button>
+                <label className="flex items-center gap-3 cursor-pointer select-none text-white hover:text-brand-100 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={(e) => handleCheckboxChange(e.target.checked)}
+                    className="w-5 h-5 rounded border-white/30 bg-white/10 text-brand-600 focus:ring-brand-500 focus:ring-offset-brand-700 transition-all cursor-pointer"
+                  />
+                  <span className="text-sm font-bold">
+                    I acknowledge these terms
+                  </span>
+                </label>
                 
                 <button
                   type="button"
