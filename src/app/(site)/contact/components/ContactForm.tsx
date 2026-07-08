@@ -135,11 +135,7 @@ export function ContactForm() {
                 className="text-brand-600 dark:text-brand-400 font-semibold hover:underline"
               >
                 Privacy Policy
-              </button>{' '}
-              and{' '}
-              <a href="#terms" className="text-brand-600 dark:text-brand-400 font-semibold hover:underline">
-                Terms &amp; Conditions
-              </a>
+              </button>
               . Message HELP for assistance. Reply STOP to any message to opt out.
             </label>
           </div>
@@ -148,14 +144,6 @@ export function ContactForm() {
             <button type="button" onClick={() => setIsPrivacyOpen(true)} className="hover:underline">
               Privacy Policy
             </button>
-            <span className="text-gray-300 dark:text-gray-700 hidden sm:inline">•</span>
-            <a href="#terms" className="hover:underline">
-              Terms &amp; Conditions
-            </a>
-            <span className="text-gray-300 dark:text-gray-700 hidden sm:inline">•</span>
-            <a href="#sms-terms" className="hover:underline">
-              SMS Terms of Service
-            </a>
           </div>
         </div>
 
@@ -177,14 +165,6 @@ export function ContactForm() {
           <button type="button" onClick={() => setIsPrivacyOpen(true)} className="hover:underline text-brand-600/80 dark:text-brand-550 font-medium">
             Privacy Policy
           </button>
-          <span>•</span>
-          <a href="#terms" className="hover:underline text-brand-600/80 dark:text-brand-550 font-medium">
-            Terms &amp; Conditions
-          </a>
-          <span>•</span>
-          <a href="#sms-terms" className="hover:underline text-brand-600/80 dark:text-brand-550 font-medium">
-            SMS Terms of Service
-          </a>
         </div>
       </form>
 

@@ -420,10 +420,6 @@ export function Hero() {
 
                 <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6 text-left font-sans">
                   By providing your phone number, you consent to receive text messages from Jybek HomeCare Services at the number provided for informational purposes like providing updates on your application status. Message and data rates may apply.{' '}
-                  <a href="#terms" className="underline font-semibold text-gray-750 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
-                    Terms of Use
-                  </a>{' '}
-                  •{' '}
                   <button
                     type="button"
                     onClick={() => setIsPrivacyOpen(true)}

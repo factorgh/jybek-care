@@ -549,7 +549,7 @@ export function PrivacyPolicyContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    { title: 'Opt-in', desc: 'Consent is obtained verbally or through signed service agreements, or via our website contact forms.' },
+                    { title: 'Opt-in', desc: 'Consent is obtained via our website contact forms.' },
                     { title: 'Opt-out', desc: 'Reply STOP to any SMS message to unsubscribe immediately. You will receive one confirmation message.' },
                     { title: 'Help', desc: 'Reply HELP to any SMS message for assistance, or call +1 888-717-5009.' },
                     { title: 'Rates', desc: 'Message and data rates may apply depending on your carrier plan.' },
