@@ -312,7 +312,7 @@ export function PrivacyPolicyContent() {
 
                 {/* Legal Disclosure */}
                 <p className="text-2xs text-gray-400 dark:text-gray-500 text-left leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-4 mb-6">
-                  By clicking Confirm, you agree to receive automated messages (care scheduling, reminders, updates) from Jybek HomeCare Services at the number provided. Consent is not a condition of purchase. Msg &amp; data rates may apply. Msg frequency varies. Reply STOP to cancel at any time.
+                  By clicking Confirm, you agree to receive automated messages (care scheduling, reminders, updates) from Jybek HomeCare Services at the number provided. Consent is not a condition of purchase. Messaging frequency may vary. Message and data rates may apply. Reply STOP to cancel at any time. No mobile opt-in data will be shared with third parties.
                 </p>
 
                 {/* Actions */}
@@ -448,7 +448,7 @@ export function PrivacyPolicyContent() {
                     SMS &amp; Mobile Messaging Disclosure
                   </h4>
                   <p className="text-gray-900 dark:text-gray-200 font-medium text-sm sm:text-base leading-relaxed">
-                    No mobile opt-in data will be shared with third parties. Message and data rates may apply. Reply STOP to opt out of SMS messages at any time. Reply HELP for assistance.
+                    No mobile opt-in data will be shared with third parties. Messaging frequency may vary. Message and data rates may apply. Reply STOP to opt out of SMS messages at any time. Reply HELP for assistance.
                   </p>
                 </div>
               </div>

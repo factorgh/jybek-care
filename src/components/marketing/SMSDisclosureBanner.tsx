@@ -83,7 +83,7 @@ export function SMSDisclosureBanner() {
                 <p className="text-sm sm:text-base text-brand-100 leading-relaxed max-w-3xl">
                   By providing your phone number on our website forms, you consent to receive SMS communications from{' '}
                   <span className="font-semibold text-white">Jybek HomeCare Services</span> related to care scheduling, caregiver coordination, and service updates.{' '}
-                  Message and data rates may apply. Reply <span className="font-mono bg-white/10 px-1.5 py-0.5 rounded font-bold text-white text-xs">STOP</span> to opt out of SMS messages at any time. Reply <span className="font-mono bg-white/10 px-1.5 py-0.5 rounded font-bold text-white text-xs">HELP</span> for assistance.{' '}
+                  Messaging frequency may vary. Message and data rates may apply. Reply <span className="font-mono bg-white/10 px-1.5 py-0.5 rounded font-bold text-white text-xs">STOP</span> to opt out of SMS messages at any time. Reply <span className="font-mono bg-white/10 px-1.5 py-0.5 rounded font-bold text-white text-xs">HELP</span> for assistance.{' '}
                   <span className="underline decoration-emerald-400 decoration-2 font-medium">No mobile opt-in data will be shared with third parties for marketing or any other purpose.</span>
                 </p>
                 

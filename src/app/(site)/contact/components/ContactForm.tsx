@@ -128,7 +128,7 @@ export function ContactForm() {
               <span className="font-bold bg-yellow-100 dark:bg-yellow-950/40 text-gray-900 dark:text-white px-1 py-0.5 rounded">
                 Jybek HomeCare
               </span>
-              . Message frequency varies. Message and data rates may apply. See our{' '}
+              . Messaging frequency may vary. Message and data rates may apply. See our{' '}
               <button
                 type="button"
                 onClick={() => setIsPrivacyOpen(true)}
@@ -136,7 +136,7 @@ export function ContactForm() {
               >
                 Privacy Policy
               </button>
-              . Message HELP for assistance. Reply STOP to any message to opt out.
+              . No mobile opt-in data will be shared with third parties. Message HELP for assistance. Reply STOP to any message to opt out.
             </label>
           </div>
 

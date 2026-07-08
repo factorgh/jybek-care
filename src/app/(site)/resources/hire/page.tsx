@@ -294,7 +294,7 @@ export default function JybekHirePage() {
                 
                 {/* SMS Compliance Disclosure */}
                 <p className="text-[11px] leading-relaxed text-gray-500 dark:text-gray-400 mt-2">
-                  By providing your phone number, you consent to receive SMS communications from Jybek HomeCare Services related to caregiver coordination, application updates, and scheduling. Message and data rates may apply. Reply STOP to opt out at any time. View our{' '}
+                  By providing your phone number, you consent to receive SMS communications from Jybek HomeCare Services related to caregiver coordination, application updates, and scheduling. Messaging frequency may vary. Message and data rates may apply. Reply STOP to opt out at any time. View our{' '}
                   <button
                     type="button"
                     onClick={() => setIsPrivacyOpen(true)}
@@ -302,7 +302,7 @@ export default function JybekHirePage() {
                   >
                     Privacy Policy
                   </button>
-                  .
+                  . No mobile opt-in data will be shared with third parties.
                 </p>
               </div>
             </div>

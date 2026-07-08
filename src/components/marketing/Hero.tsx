@@ -418,8 +418,8 @@ export function Hero() {
                   Confirm your phone number
                 </h2>
 
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6 text-left font-sans">
-                  By providing your phone number, you consent to receive text messages from Jybek HomeCare Services at the number provided for informational purposes like providing updates on your application status. Message and data rates may apply.{' '}
+                <p className="text-xs sm:text-sm text-gray-550 dark:text-gray-400 leading-relaxed mb-6 text-left font-sans">
+                  By providing your phone number, you consent to receive text messages from Jybek HomeCare Services at the number provided for informational purposes like providing updates on your application status. Messaging frequency may vary. Message and data rates may apply.{' '}
                   <button
                     type="button"
                     onClick={() => setIsPrivacyOpen(true)}
@@ -427,7 +427,7 @@ export function Hero() {
                   >
                     Privacy Policy
                   </button>
-                  . By clicking next, Jybek HomeCare Services will send a code to this phone number for verification purposes.
+                  . No mobile opt-in data will be shared with third parties. By clicking next, Jybek HomeCare Services will send a code to this phone number for verification purposes.
                 </p>
 
                 {/* Phone Input */}
