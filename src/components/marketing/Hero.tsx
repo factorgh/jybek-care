@@ -44,6 +44,7 @@ export function Hero() {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [smsPhoneNumber, setSmsPhoneNumber] = useState('');
   const [smsPhoneError, setSmsPhoneError] = useState('');
+  const [smsConsentChecked, setSmsConsentChecked] = useState(true);
   const [toast, setToast] = useState<{ message: string } | null>(null);
 
   // Auto-dismiss toast notifications
@@ -76,6 +77,10 @@ export function Hero() {
 
   const handleSmsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!smsConsentChecked) {
+      setSmsPhoneError('Please check the consent box to continue');
+      return;
+    }
     const cleaned = smsPhoneNumber.replace(/\D/g, '');
     if (cleaned.length < 10) {
       setSmsPhoneError('Please enter a valid 10-digit phone number');
@@ -418,20 +423,8 @@ export function Hero() {
                   Confirm your phone number
                 </h2>
 
-                <p className="text-xs sm:text-sm text-gray-550 dark:text-gray-400 leading-relaxed mb-6 text-left font-sans">
-                  By providing your phone number, you consent to receive text messages from Jybek HomeCare Services at the number provided for informational purposes like providing updates on your application status. Messaging frequency may vary. Message and data rates may apply.{' '}
-                  <button
-                    type="button"
-                    onClick={() => setIsPrivacyOpen(true)}
-                    className="underline font-semibold text-gray-750 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
-                  >
-                    Privacy Policy
-                  </button>
-                  . No mobile opt-in data will be shared with third parties. By clicking next, Jybek HomeCare Services will send a code to this phone number for verification purposes.
-                </p>
-
                 {/* Phone Input */}
-                <div className="mb-6">
+                <div className="mb-4">
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
                     <input
@@ -455,17 +448,48 @@ export function Hero() {
                     </p>
                   )}
                 </div>
+
+                {/* Consent Box */}
+                <div className="mb-4 p-4 sm:p-4.5 rounded-2xl border border-gray-200 dark:border-gray-700/80 bg-gray-50/80 dark:bg-gray-800/40 transition-colors hover:border-gray-300 dark:hover:border-gray-600">
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="hero-sms-consent-checkbox"
+                      checked={smsConsentChecked}
+                      onChange={(e) => {
+                        setSmsConsentChecked(e.target.checked);
+                        if (smsPhoneError && e.target.checked) setSmsPhoneError('');
+                      }}
+                      required
+                      className="mt-0.5 h-4.5 w-4.5 rounded border-gray-300 dark:border-gray-600 text-brand-600 focus:ring-brand-500 dark:bg-gray-800 shrink-0 cursor-pointer accent-brand-600"
+                    />
+                    <label htmlFor="hero-sms-consent-checkbox" className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed cursor-pointer select-none font-sans text-left">
+                      By checking this box, I agree to receive SMS messages about Conversational purposes from JYBEK HOMECARE SERVICES at the phone number provided above. The SMS frequency may vary. Data rates may apply. Text HELP to +1 888-717-5009 for assistance. Reply STOP to opt out of receiving SMS messages. Please review our{' '}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsPrivacyOpen(true);
+                        }}
+                        className="underline font-semibold text-gray-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                      >
+                        Privacy Policy
+                      </button>{' '}
+                      for more information.
+                    </label>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-auto pt-6">
+              <div className="mt-auto pt-4">
                 {/* Submit Button */}
                 <Button
                   type="submit"
                   fullWidth
                   size="lg"
-                  disabled={!smsPhoneNumber}
+                  disabled={!smsPhoneNumber || !smsConsentChecked}
                   className={`text-base font-bold shadow-brand-500/20 py-4 px-6 rounded-2xl transition-all duration-200 ${
-                    !smsPhoneNumber ? 'opacity-50 cursor-not-allowed' : ''
+                    !smsPhoneNumber || !smsConsentChecked ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
                   Next

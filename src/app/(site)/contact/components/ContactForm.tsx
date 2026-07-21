@@ -61,7 +61,7 @@ export function ContactForm() {
       transition={{ duration: 0.5 }}
     >
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        Contact Jybek HomeCare
+        Contact Jybek HomeCare Services Accross
       </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-8">
         Homepage lead/contact form
@@ -120,23 +120,15 @@ export function ContactForm() {
               className="mt-1 w-4.5 h-4.5 rounded border-gray-300 text-brand-600 focus:ring-brand-500 dark:bg-gray-800 dark:border-gray-700 cursor-pointer"
             />
             <label htmlFor="sms-form-consent" className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed cursor-pointer select-none">
-              By checking this box, you are agreeing to receive{' '}
-              <span className="font-bold bg-yellow-100 dark:bg-yellow-950/40 text-gray-900 dark:text-white px-1 py-0.5 rounded">
-                appointment, scheduling, and care-coordination
-              </span>{' '}
-              text messages from{' '}
-              <span className="font-bold bg-yellow-100 dark:bg-yellow-950/40 text-gray-900 dark:text-white px-1 py-0.5 rounded">
-                Jybek HomeCare
-              </span>
-              . Messaging frequency may vary. Message and data rates may apply. See our{' '}
+              By checking this box, I agree to receive SMS messages about Conversational purposes from JYBEK HOMECARE SERVICES at the phone number provided above. The SMS frequency may vary. Data rates may apply. Text HELP to +1 888-717-5009 for assistance. Reply STOP to opt out of receiving SMS messages. Please review our{' '}
               <button
                 type="button"
                 onClick={() => setIsPrivacyOpen(true)}
                 className="text-brand-600 dark:text-brand-400 font-semibold hover:underline"
               >
                 Privacy Policy
-              </button>
-              . No mobile opt-in data will be shared with third parties. Message HELP for assistance. Reply STOP to any message to opt out.
+              </button>{' '}
+              for more information.
             </label>
           </div>
 
